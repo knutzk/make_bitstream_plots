@@ -1,3 +1,12 @@
+#include "HistStack.h"
+
+#include "TH1D.h"
+#include "TCanvas.h"
+#include "TLegend.h"
+#include "TFile.h"
+
+#include <iostream>
+
 HistStack::HistStack(std::vector<TH1D*> hists)
   : histograms_(hists) {
   for (const auto& hist : hists) {

@@ -1,6 +1,14 @@
 #ifndef HISTSTACK_H_
 #define HISTSTACK_H_
 
+#include <string>
+#include <vector>
+
+class TCanvas;
+class TFile;
+class TH1D;
+class TLegend;
+
 class HistStack {
  public:
   HistStack(TFile* file, const std::string& path, const std::vector<std::string>& titles);
