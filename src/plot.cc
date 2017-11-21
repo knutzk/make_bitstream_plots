@@ -94,13 +94,19 @@ int main() {
   auto hist = static_cast<TProfile*>(file->Get((path + "femcc_errorwords_merged_stat_B0").c_str()))->ProjectionX();
   hist->SetBarWidth(0.8);
   hist->SetBarOffset(0.1);
-  hist->SetFillColor(kBlue);
+  hist->SetFillColor(kBlue+2);
   hist->GetXaxis()->SetTitle("# Error Words");
   hist->GetYaxis()->SetTitle("Frequency");
   hist->GetXaxis()->SetRangeUser(0, 6);
   hist->GetYaxis()->SetRangeUser(0, 0.6);
-  hist->SetBinContent(2, 1 - hist->GetBinContent(1));
-  hist->Draw("HIST BAR1");
+
+  // Draw a histogram in the background to point out the merging
+  auto hist_bg = static_cast<TProfile*>(hist->Clone());
+  hist_bg->SetBinContent(2, 1 - hist->GetBinContent(1));
+  hist_bg->SetFillColor(kAzure-3);
+  hist_bg->Draw("HIST BAR1");
+
+  hist->Draw("HIST BAR1 SAME");
   canvas->SaveAs("errorwords_stat.eps");
 
   canvas->SetRightMargin(0.10);
