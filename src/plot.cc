@@ -89,31 +89,31 @@ int main() {
   SupportLabel(0.2, 0.76, "Run 339,957");
   canvas->SaveAs("avg_bitstr_occ.eps");
 
-  // // =======================================================
+  // =======================================================
 
-  // auto hist = static_cast<TProfile*>(file->Get((path + "femcc_errorwords_merged_stat_B0").c_str()))->ProjectionX();
-  // hist->SetBarWidth(0.8);
-  // hist->SetBarOffset(0.1);
-  // hist->SetFillColor(kBlue);
-  // hist->GetXaxis()->SetTitle("# Error Words");
-  // hist->GetYaxis()->SetTitle("Frequency");
-  // hist->GetXaxis()->SetRangeUser(0, 6);
-  // hist->GetYaxis()->SetRangeUser(0, 0.6);
-  // hist->SetBinContent(2, 1 - hist->GetBinContent(1));
-  // hist->Draw("HIST BAR1");
-  // canvas->SaveAs("errorwords_stat.eps");
+  auto hist = static_cast<TProfile*>(file->Get((path + "femcc_errorwords_merged_stat_B0").c_str()))->ProjectionX();
+  hist->SetBarWidth(0.8);
+  hist->SetBarOffset(0.1);
+  hist->SetFillColor(kBlue);
+  hist->GetXaxis()->SetTitle("# Error Words");
+  hist->GetYaxis()->SetTitle("Frequency");
+  hist->GetXaxis()->SetRangeUser(0, 6);
+  hist->GetYaxis()->SetRangeUser(0, 0.6);
+  hist->SetBinContent(2, 1 - hist->GetBinContent(1));
+  hist->Draw("HIST BAR1");
+  canvas->SaveAs("errorwords_stat.eps");
 
-  // canvas->SetRightMargin(0.10);
-  // gStyle->SetLabelSize(12, "xyz");
-  // hist = static_cast<TH1D*>(file->Get((path + "femcc_errorwords_merged_B0").c_str()));
-  // hist->GetZaxis()->SetRangeUser(0, 5);
-  // hist->Draw();
-  // canvas->SaveAs("errorwords_merged.eps");
+  canvas->SetRightMargin(0.10);
+  gStyle->SetLabelSize(12, "xyz");
+  hist = static_cast<TH1D*>(file->Get((path + "femcc_errorwords_merged_B0").c_str()));
+  hist->GetZaxis()->SetRangeUser(0, 5);
+  hist->Draw();
+  canvas->SaveAs("errorwords_merged.eps");
 
-  // hist = static_cast<TH1D*>(file->Get((path + "femcc_errorwords_B0").c_str()));
-  // hist->GetZaxis()->SetRangeUser(0, 5);
-  // hist->Draw();
-  // canvas->SaveAs("errorwords.eps");
+  hist = static_cast<TH1D*>(file->Get((path + "femcc_errorwords_B0").c_str()));
+  hist->GetZaxis()->SetRangeUser(0, 5);
+  hist->Draw();
+  canvas->SaveAs("errorwords.eps");
 
   return 0;
 }
