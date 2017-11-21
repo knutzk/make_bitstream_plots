@@ -1,34 +1,17 @@
 #include "HistStack.h"
 #include "AtlasStyle.h"
 #include "AtlasLabels.h"
-#ifdef __CLING__
-// these are not headers - do not treat them as such - needed for ROOT6
-#include "AtlasLabels.C"
-#include "AtlasStyle.C"
-#endif
 
-void SupportLabel(double xpos, double ypos, const std::string& text) {
-  TLatex p;
-  p.SetNDC();
-  p.SetTextFont(42);
-  p.DrawLatex(xpos, ypos, text.c_str());
-}
+#include "TLatex.h"
+#include "TProfile.h"
+#include "TH1D.h"
+#include "TFile.h"
+#include "TLegend.h"
 
-std::unique_ptr<TProfile> getVersusPileup(TH1D* pileup_hist, TH1D* hist) {
-  if (!pileup_hist) return nullptr;
-  if (!hist) return nullptr;
-  auto versus_pileup = std::unique_ptr<TProfile>{
-    new TProfile{(std::string("neu_") + hist->GetName()).c_str(),
-                 (hist->GetTitle() + std::string(";pile-up;bitstream occ./module")).c_str(),
-                 70, -0.5, 69.5}};
+#include <memory>
 
-  for (unsigned int i = 1; i < pileup_hist->GetNbinsX() + 1; ++i) {
-    auto pileup = pileup_hist->GetBinContent(i);
-    auto occ = hist->GetBinContent(i);
-    versus_pileup->Fill(pileup, occ);;
-  }
-  return versus_pileup;
-}
+void SupportLabel(double xpos, double ypos, const std::string& text);
+std::unique_ptr<TProfile> getVersusPileup(TH1D* pileup_hist, TH1D* hist);
 
 int main() {
   SetAtlasStyle();
@@ -129,4 +112,42 @@ int main() {
   // canvas->SaveAs("errorwords.eps");
 
   return 0;
+}
+
+if (!pileup_hist) return nullptr;
+if (!hist) return nullptr;
+auto versus_pileup = std::unique_ptr<TProfile>{
+  new TProfile{(std::string("neu_") + hist->GetName()).c_str(),
+               (hist->GetTitle() + std::string(";pile-up;bitstream occ./module")).c_str(),
+               70, -0.5, 69.5}};
+
+for (unsigned int i = 1; i < pileup_hist->GetNbinsX() + 1; ++i) {
+  auto pileup = pileup_hist->GetBinContent(i);
+  auto occ = hist->GetBinContent(i);
+  versus_pileup->Fill(pileup, occ);;
+ }
+return versus_pileup;
+}
+
+void SupportLabel(double xpos, double ypos, const std::string& text) {
+  TLatex p;
+  p.SetNDC();
+  p.SetTextFont(42);
+  p.DrawLatex(xpos, ypos, text.c_str());
+}
+
+std::unique_ptr<TProfile> getVersusPileup(TH1D* pileup_hist, TH1D* hist) {
+  if (!pileup_hist) return nullptr;
+  if (!hist) return nullptr;
+  auto versus_pileup = std::unique_ptr<TProfile>{
+    new TProfile{(std::string("neu_") + hist->GetName()).c_str(),
+                 (hist->GetTitle() + std::string(";pile-up;bitstream occ./module")).c_str(),
+                 70, -0.5, 69.5}};
+
+  for (unsigned int i = 1; i < pileup_hist->GetNbinsX() + 1; ++i) {
+    auto pileup = pileup_hist->GetBinContent(i);
+    auto occ = hist->GetBinContent(i);
+    versus_pileup->Fill(pileup, occ);;
+  }
+  return versus_pileup;
 }
