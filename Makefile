@@ -2,7 +2,7 @@
 CC := g++
 
 # Set the directories
-DIR := core
+DIR := .
 TARGET := plot
 
 # Set flags
@@ -22,7 +22,7 @@ $(TARGET): $(OBJ)
 	@echo "   $(CC) $^ -o $(TARGET) $(LIBS)"; $(CC) $^ -o $(TARGET) $(LIBS)
 
 $(DIR)/%.o: $(DIR)/%.cc
-	@echo "   $(CC) $(CFLAGS) -c -o $@ $<"; $(CC) $(CFLAGS) -c -o $@ $<
+	@echo "   $(CC) $(CFLAGS) $(MISCFLAGS) -c -o $@ $<"; $(CC) $(CFLAGS) $(MISCFLAGS) -c -o $@ $<
 
 clean:
 	@echo "   Cleaning...";
