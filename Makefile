@@ -11,8 +11,8 @@ LIBS := `root-config --libs`
 MISCFLAGS := -fdiagnostics-color=always
 DEBUGFLAGS := -O0 -g2
 
-SRC := $(shell find $(COREDIR) -type f -name *.cc)
-OBJ := $(CORESRC:.cc=.o)
+SRC := $(shell find $(DIR) -type f -name *.cc)
+OBJ := $(SRC:.cc=.o)
 
 all: $(TARGET)
 
