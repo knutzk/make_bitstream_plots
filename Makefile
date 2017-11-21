@@ -2,7 +2,7 @@
 CC := g++
 
 # Set the directories
-DIR := .
+DIR := src
 TARGET := plot
 
 # Set flags

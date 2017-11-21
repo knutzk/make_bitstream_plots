@@ -7,6 +7,7 @@
 #include "TH1D.h"
 #include "TFile.h"
 #include "TLegend.h"
+#include "TCanvas.h"
 
 #include <memory>
 
@@ -112,21 +113,6 @@ int main() {
   // canvas->SaveAs("errorwords.eps");
 
   return 0;
-}
-
-if (!pileup_hist) return nullptr;
-if (!hist) return nullptr;
-auto versus_pileup = std::unique_ptr<TProfile>{
-  new TProfile{(std::string("neu_") + hist->GetName()).c_str(),
-               (hist->GetTitle() + std::string(";pile-up;bitstream occ./module")).c_str(),
-               70, -0.5, 69.5}};
-
-for (unsigned int i = 1; i < pileup_hist->GetNbinsX() + 1; ++i) {
-  auto pileup = pileup_hist->GetBinContent(i);
-  auto occ = hist->GetBinContent(i);
-  versus_pileup->Fill(pileup, occ);;
- }
-return versus_pileup;
 }
 
 void SupportLabel(double xpos, double ypos, const std::string& text) {
