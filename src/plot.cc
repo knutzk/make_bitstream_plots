@@ -23,7 +23,7 @@ int main() {
   // =======================================================
 
   auto canvas = new TCanvas;
-  auto legend = new TLegend(0.2, 0.45, 0.3, 0.75);
+  auto legend = new TLegend(0.2, 0.42, 0.3, 0.72);
   legend->SetTextFont(42);
   legend->SetTextSize(0.05);
 
@@ -38,7 +38,8 @@ int main() {
   stack.draw(canvas);
   legend->Draw("SAME");
   ATLASLabel(0.2, 0.88, "Pixel Internal");
-  SupportLabel(0.2, 0.82, "run 339,957");
+  SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
+  SupportLabel(0.2, 0.76, "Run 339,957");
   canvas->SaveAs("avg_bitstr_occ_errors.eps");
 
   // =======================================================
@@ -62,7 +63,7 @@ int main() {
     versus_pileup_projection.back()->SetName(hist->GetName());
   }
 
-  legend = new TLegend(0.2, 0.45, 0.3, 0.75);
+  legend = new TLegend(0.2, 0.42, 0.3, 0.72);
   legend->SetTextFont(42);
   legend->SetTextSize(0.05);
   HistStack stack2{versus_pileup_projection};
@@ -70,7 +71,8 @@ int main() {
   stack2.draw(canvas);
   legend->Draw("SAME");
   ATLASLabel(0.2, 0.88, "Pixel Internal");
-  SupportLabel(0.2, 0.82, "run 339,957");
+  SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
+  SupportLabel(0.2, 0.76, "Run 339,957");
   canvas->SaveAs("avg_bitstr_occ_vs_mu.eps");
 
   // =======================================================
@@ -83,7 +85,8 @@ int main() {
   stack3.draw(canvas);
   legend->Draw("SAME");
   ATLASLabel(0.2, 0.88, "Pixel Internal");
-  SupportLabel(0.2, 0.82, "run 339,957");
+  SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
+  SupportLabel(0.2, 0.76, "Run 339,957");
   canvas->SaveAs("avg_bitstr_occ.eps");
 
   // // =======================================================
