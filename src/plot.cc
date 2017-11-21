@@ -21,6 +21,7 @@ int main() {
   std::string path = "run_339957/Pixel/Errors/";
 
   // =======================================================
+  // Bit-stream occupancy by FE/MCC errors
 
   auto canvas = new TCanvas;
   auto legend = new TLegend(0.2, 0.42, 0.3, 0.72);
@@ -43,6 +44,7 @@ int main() {
   canvas->SaveAs("avg_bitstr_occ_errors.eps");
 
   // =======================================================
+  // Total bit-stream occupancy vs. pile-up
 
   hist_titles.clear();
   hist_titles.push_back("Bitstr_Occ_Tot_LB_B0");
@@ -76,6 +78,7 @@ int main() {
   canvas->SaveAs("avg_bitstr_occ_vs_mu.eps");
 
   // =======================================================
+  // Total bit-stream occupancy vs. LB
 
   legend = new TLegend(0.8, 0.60, 0.9, 0.90);
   legend->SetTextFont(42);
@@ -90,6 +93,7 @@ int main() {
   canvas->SaveAs("avg_bitstr_occ.eps");
 
   // =======================================================
+  // Histograms for error words
 
   auto hist = static_cast<TProfile*>(file->Get((path + "femcc_errorwords_merged_stat_B0").c_str()))->ProjectionX();
   hist->SetBarWidth(0.8);
@@ -109,8 +113,10 @@ int main() {
   hist->Draw("HIST BAR1 SAME");
   canvas->SaveAs("errorwords_stat.eps");
 
+  // Design adjustments for the 2D module maps
   canvas->SetRightMargin(0.10);
-  gStyle->SetLabelSize(12, "xyz");
+  gStyle->SetLabelSize(0.04, "xy");
+
   hist = static_cast<TH1D*>(file->Get((path + "femcc_errorwords_merged_B0").c_str()));
   hist->GetZaxis()->SetRangeUser(0, 5);
   hist->Draw();
