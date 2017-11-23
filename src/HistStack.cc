@@ -1,9 +1,11 @@
 #include "HistStack.h"
+#include "HistCleaner.h"
 
 #include "TH1D.h"
 #include "TCanvas.h"
 #include "TLegend.h"
 #include "TFile.h"
+#include "TProfile.h"
 
 #include <iostream>
 
@@ -19,7 +21,7 @@ HistStack::HistStack(std::vector<TH1D*> hists)
 HistStack::HistStack(TFile* file, const std::string& path, const std::vector<std::string>& titles)
   : titles_(titles) {
   for (const auto& title : titles_) {
-    auto hist = static_cast<TH1D*>(file->Get((path + title).c_str()));
+    auto hist = static_cast<TH1D*>(openCleanProfile(file, path + title));
     if (!hist) {
       std::cerr << "Histogram " << title << "not found. Skipping" << std::endl;
       continue;

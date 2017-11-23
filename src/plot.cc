@@ -1,4 +1,5 @@
 #include "HistStack.h"
+#include "HistCleaner.h"
 #include "AtlasStyle.h"
 #include "AtlasLabels.h"
 
@@ -55,7 +56,7 @@ int main() {
 
   std::vector<std::unique_ptr<TProfile>> versus_pileup;
   for (const auto& title : hist_titles) {
-    versus_pileup.push_back(getVersusPileup(static_cast<TH1D*>(file->Get("run_339957/Pixel/Hits/Interactions_vs_lumi")), static_cast<TH1D*>(file->Get((path + title).c_str()))));
+    versus_pileup.push_back(getVersusPileup(static_cast<TH1D*>(openCleanProfile(file, "run_339957/Pixel/Hits/Interactions_vs_lumi")), static_cast<TH1D*>(openCleanProfile(file, path + title))));
   }
 
   std::vector<TH1D*> versus_pileup_projection;
