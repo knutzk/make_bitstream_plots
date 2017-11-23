@@ -72,6 +72,7 @@ int main() {
   stack.reset(new HistStack{file, path, hist_titles});
   stack->setXAxisTitle("Lumi block");
   stack->setYAxisTitle("Average bandwidth occupancy");
+  stack->setXAxisTicks(508);  // Don't cram the ticks on the x axis
   stack->createLegend(legend);
   stack->draw(canvas);
   legend->Draw("SAME");
@@ -129,6 +130,7 @@ int main() {
   stack.reset(new HistStack{file, path, hist_titles});
   stack->setXAxisTitle("Lumi block");
   stack->setYAxisTitle("Average bandwidth occupancy");
+  stack->setXAxisTicks(508);  // Don't cram the ticks on the x axis
   stack->createLegend(legend);
   stack->draw(canvas);
   legend->Draw("SAME");
