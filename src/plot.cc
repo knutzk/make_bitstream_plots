@@ -20,10 +20,14 @@ int main() {
 
   auto file = TFile::Open("file.root", "READ");
   std::string path = "run_339957/Pixel/Errors/";
-  auto canvas = new TCanvas;
+  auto canvas = new TCanvas("canvas", "canvas", 600, 600);
 
   // =======================================================
   // Bit-stream occupancy by FE/MCC errors
+
+  // We need more space on the left for these plots.
+  canvas->SetLeftMargin(0.2);
+  gStyle->SetTitleYOffset(1.8);
 
   std::vector<std::string> hist_titles;
   hist_titles.push_back("Bitstr_Occ_Errors_LB_B0");
@@ -53,15 +57,15 @@ int main() {
   stack->createLegend(legend);
   stack->draw(canvas);
   legend->Draw("SAME");
-  ATLASLabel(0.2, 0.88, "Pixel Internal");
-  SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
-  SupportLabel(0.2, 0.76, "LHC fill 6360");
+  ATLASLabel(0.24, 0.88, "Pixel Internal");
+  SupportLabel(0.24, 0.82, "Assumed L1 rate: 100 kHz");
+  SupportLabel(0.24, 0.76, "LHC fill 6360");
   canvas->SaveAs("avg_bitstr_occ_errors_vs_mu.eps");
 
   // =======================================================
 
   canvas->Clear();
-  legend = new TLegend(0.2, 0.42, 0.3, 0.72);
+  legend = new TLegend(0.24, 0.42, 0.34, 0.72);
   legend->SetTextFont(42);
   legend->SetTextSize(0.05);
 
@@ -71,13 +75,17 @@ int main() {
   stack->createLegend(legend);
   stack->draw(canvas);
   legend->Draw("SAME");
-  ATLASLabel(0.2, 0.88, "Pixel Internal");
-  SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
-  SupportLabel(0.2, 0.76, "LHC fill 6360");
+  ATLASLabel(0.24, 0.88, "Pixel Internal");
+  SupportLabel(0.24, 0.82, "Assumed L1 rate: 100 kHz");
+  SupportLabel(0.24, 0.76, "LHC fill 6360");
   canvas->SaveAs("avg_bitstr_occ_errors.eps");
 
   // =======================================================
   // Total bit-stream occupancy vs. pile-up
+
+  // Reverting back to standard ATLAS style.
+  canvas->SetLeftMargin(0.16);
+  gStyle->SetTitleYOffset(1.4);
 
   hist_titles.clear();
   hist_titles.push_back("Bitstr_Occ_Tot_LB_B0");
