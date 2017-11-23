@@ -41,7 +41,7 @@ int main() {
   legend->Draw("SAME");
   ATLASLabel(0.2, 0.88, "Pixel Internal");
   SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
-  SupportLabel(0.2, 0.76, "Run 339,957");
+  SupportLabel(0.2, 0.76, "LHC fill 6360");
   canvas->SaveAs("avg_bitstr_occ_errors.eps");
 
   // =======================================================
@@ -75,7 +75,7 @@ int main() {
   legend->Draw("SAME");
   ATLASLabel(0.2, 0.88, "Pixel Internal");
   SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
-  SupportLabel(0.2, 0.76, "Run 339,957");
+  SupportLabel(0.2, 0.76, "LHC fill 6360");
   canvas->SaveAs("avg_bitstr_occ_vs_mu.eps");
 
   // =======================================================
@@ -90,7 +90,7 @@ int main() {
   legend->Draw("SAME");
   ATLASLabel(0.2, 0.88, "Pixel Internal");
   SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
-  SupportLabel(0.2, 0.76, "Run 339,957");
+  SupportLabel(0.2, 0.76, "LHC fill 6360");
   canvas->SaveAs("avg_bitstr_occ.eps");
 
   // =======================================================
