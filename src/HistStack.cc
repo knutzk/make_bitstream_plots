@@ -88,3 +88,15 @@ void HistStack::setComfortableMax(double max) {
     hist->GetYaxis()->SetRangeUser(0, max);
   }
 }
+
+void HistStack::setXAxisTitle(const std::string& title) {
+  for (auto& hist : histograms_) {
+    hist->GetXaxis()->SetTitle(title.c_str());
+  }
+}
+
+void HistStack::setYAxisTitle(const std::string& title) {
+  for (auto& hist : histograms_) {
+    hist->GetYaxis()->SetTitle(title.c_str());
+  }
+}

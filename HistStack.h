@@ -25,6 +25,10 @@ class HistStack {
 
   void setComfortableMax(double max);
 
+  void setXAxisTitle(const std::string& title);
+
+  void setYAxisTitle(const std::string& title);
+
   std::vector<std::string> titles_;
   std::vector<TH1D*> histograms_;
 };

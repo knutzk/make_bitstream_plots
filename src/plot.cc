@@ -48,6 +48,8 @@ int main() {
   legend->SetTextFont(42);
   legend->SetTextSize(0.05);
   std::unique_ptr<HistStack> stack = std::make_unique<HistStack>(HistStack{versus_pileup_projection});
+  stack->setXAxisTitle("Average #mu per lumi block");
+  stack->setYAxisTitle("Average bandwidth occupancy");
   stack->createLegend(legend);
   stack->draw(canvas);
   legend->Draw("SAME");
@@ -58,11 +60,14 @@ int main() {
 
   // =======================================================
 
+  canvas->Clear();
   legend = new TLegend(0.2, 0.42, 0.3, 0.72);
   legend->SetTextFont(42);
   legend->SetTextSize(0.05);
 
   stack.reset(new HistStack{file, path, hist_titles});
+  stack->setXAxisTitle("Lumi block");
+  stack->setYAxisTitle("Average bandwidth occupancy");
   stack->createLegend(legend);
   stack->draw(canvas);
   legend->Draw("SAME");
@@ -97,6 +102,8 @@ int main() {
   legend->SetTextFont(42);
   legend->SetTextSize(0.05);
   stack.reset(new HistStack{versus_pileup_projection});
+  stack->setXAxisTitle("Average #mu per lumi block");
+  stack->setYAxisTitle("Average bandwidth occupancy");
   stack->createLegend(legend);
   stack->draw(canvas);
   legend->Draw("SAME");
@@ -112,6 +119,8 @@ int main() {
   legend->SetTextFont(42);
   legend->SetTextSize(0.05);
   stack.reset(new HistStack{file, path, hist_titles});
+  stack->setXAxisTitle("Lumi block");
+  stack->setYAxisTitle("Average bandwidth occupancy");
   stack->createLegend(legend);
   stack->draw(canvas);
   legend->Draw("SAME");
