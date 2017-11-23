@@ -20,14 +20,10 @@ int main() {
 
   auto file = TFile::Open("file.root", "READ");
   std::string path = "run_339957/Pixel/Errors/";
+  auto canvas = new TCanvas;
 
   // =======================================================
   // Bit-stream occupancy by FE/MCC errors
-
-  auto canvas = new TCanvas;
-  auto legend = new TLegend(0.2, 0.42, 0.3, 0.72);
-  legend->SetTextFont(42);
-  legend->SetTextSize(0.05);
 
   std::vector<std::string> hist_titles;
   hist_titles.push_back("Bitstr_Occ_Errors_LB_B0");
@@ -35,9 +31,40 @@ int main() {
   hist_titles.push_back("Bitstr_Occ_Errors_LB_B2");
   hist_titles.push_back("Bitstr_Occ_Errors_LB_ECA");
   hist_titles.push_back("Bitstr_Occ_Errors_LB_ECC");
-  HistStack stack{file, path, hist_titles};
-  stack.createLegend(legend);
-  stack.draw(canvas);
+
+  std::vector<std::unique_ptr<TProfile>> versus_pileup;
+  for (const auto& title : hist_titles) {
+    versus_pileup.push_back(getVersusPileup(static_cast<TH1D*>(openCleanProfile(file, "run_339957/Pixel/Hits/Interactions_vs_lumi")), static_cast<TH1D*>(openCleanProfile(file, path + title))));
+  }
+
+  std::vector<TH1D*> versus_pileup_projection;
+  for (auto& hist : versus_pileup) {
+    hist->Rebin(2);
+    versus_pileup_projection.push_back(hist->ProjectionX());
+    versus_pileup_projection.back()->SetName(hist->GetName());
+  }
+
+  auto legend = new TLegend(0.8, 0.6, 0.9, 0.9);
+  legend->SetTextFont(42);
+  legend->SetTextSize(0.05);
+  std::unique_ptr<HistStack> stack = std::make_unique<HistStack>(HistStack{versus_pileup_projection});
+  stack->createLegend(legend);
+  stack->draw(canvas);
+  legend->Draw("SAME");
+  ATLASLabel(0.2, 0.88, "Pixel Internal");
+  SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
+  SupportLabel(0.2, 0.76, "LHC fill 6360");
+  canvas->SaveAs("avg_bitstr_occ_errors_vs_mu.eps");
+
+  // =======================================================
+
+  legend = new TLegend(0.2, 0.42, 0.3, 0.72);
+  legend->SetTextFont(42);
+  legend->SetTextSize(0.05);
+
+  stack.reset(new HistStack{file, path, hist_titles});
+  stack->createLegend(legend);
+  stack->draw(canvas);
   legend->Draw("SAME");
   ATLASLabel(0.2, 0.88, "Pixel Internal");
   SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
@@ -54,12 +81,12 @@ int main() {
   hist_titles.push_back("Bitstr_Occ_Tot_LB_ECA");
   hist_titles.push_back("Bitstr_Occ_Tot_LB_ECC");
 
-  std::vector<std::unique_ptr<TProfile>> versus_pileup;
+  versus_pileup.clear();
   for (const auto& title : hist_titles) {
     versus_pileup.push_back(getVersusPileup(static_cast<TH1D*>(openCleanProfile(file, "run_339957/Pixel/Hits/Interactions_vs_lumi")), static_cast<TH1D*>(openCleanProfile(file, path + title))));
   }
 
-  std::vector<TH1D*> versus_pileup_projection;
+  versus_pileup_projection.clear();
   for (auto& hist : versus_pileup) {
     hist->Rebin(2);
     versus_pileup_projection.push_back(hist->ProjectionX());
@@ -69,9 +96,9 @@ int main() {
   legend = new TLegend(0.2, 0.42, 0.3, 0.72);
   legend->SetTextFont(42);
   legend->SetTextSize(0.05);
-  HistStack stack2{versus_pileup_projection};
-  stack2.createLegend(legend);
-  stack2.draw(canvas);
+  stack.reset(new HistStack{versus_pileup_projection});
+  stack->createLegend(legend);
+  stack->draw(canvas);
   legend->Draw("SAME");
   ATLASLabel(0.2, 0.88, "Pixel Internal");
   SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
@@ -84,9 +111,9 @@ int main() {
   legend = new TLegend(0.8, 0.60, 0.9, 0.90);
   legend->SetTextFont(42);
   legend->SetTextSize(0.05);
-  HistStack stack3{file, path, hist_titles};
-  stack3.createLegend(legend);
-  stack3.draw(canvas);
+  stack.reset(new HistStack{file, path, hist_titles});
+  stack->createLegend(legend);
+  stack->draw(canvas);
   legend->Draw("SAME");
   ATLASLabel(0.2, 0.88, "Pixel Internal");
   SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
