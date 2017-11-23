@@ -27,6 +27,8 @@ class HistStack {
 
   void setXAxisTitle(const std::string& title);
 
+  void setXAxisTicks(unsigned int ticks);
+
   void setYAxisTitle(const std::string& title);
 
   std::vector<std::string> titles_;

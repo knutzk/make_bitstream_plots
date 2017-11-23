@@ -109,6 +109,12 @@ void HistStack::setXAxisTitle(const std::string& title) {
   }
 }
 
+void HistStack::setXAxisTicks(unsigned int ticks) {
+  for (auto& hist : histograms_) {
+    hist->GetXaxis()->SetNdivisions(ticks, kTRUE);
+  }
+}
+
 void HistStack::setYAxisTitle(const std::string& title) {
   for (auto& hist : histograms_) {
     hist->GetYaxis()->SetTitle(title.c_str());
