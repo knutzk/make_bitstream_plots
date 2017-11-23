@@ -38,8 +38,15 @@ void HistStack::createLegend(TLegend* legend) {
     return s.substr(pos + 1, s.length() - pos);
   };
 
+  auto substitute_B_with_L = [](std::string* s) {
+    auto pos = s->find("B");
+    if (pos != std::string::npos) s->replace(pos, 1, std::string("L"));
+  };
+
   for (const auto& hist : histograms_) {
-    legend->AddEntry(hist, get_suffix(std::string(hist->GetName())).c_str());
+    auto name = get_suffix(std::string(hist->GetName()));
+    substitute_B_with_L(&name);
+    legend->AddEntry(hist, name.c_str());
   }
 }
 
