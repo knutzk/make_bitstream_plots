@@ -79,7 +79,7 @@ int main() {
   ATLASLabel(0.24, 0.88, "Pixel Internal");
   SupportLabel(0.24, 0.82, "Assumed L1 rate: 100 kHz");
   SupportLabel(0.24, 0.76, "LHC fill 6360");
-  canvas->SaveAs("avg_bitstr_occ_errors.eps");
+  canvas->SaveAs("avg_bitstr_occ_errors_vs_lumi.eps");
 
   // =======================================================
   // Total bit-stream occupancy vs. pile-up
@@ -137,7 +137,7 @@ int main() {
   ATLASLabel(0.2, 0.88, "Pixel Internal");
   SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
   SupportLabel(0.2, 0.76, "LHC fill 6360");
-  canvas->SaveAs("avg_bitstr_occ.eps");
+  canvas->SaveAs("avg_bitstr_occ_vs_lumi.eps");
 
   // =======================================================
   // Histograms for error words
