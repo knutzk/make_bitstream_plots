@@ -51,7 +51,7 @@ void HistStack::createLegend(TLegend* legend) {
 }
 
 void HistStack::draw(TCanvas* canvas) {
-  this->setComfortableMax(1.4*this->getMax());
+  this->setComfortableMax(this->getMax());
   for (const auto& hist : histograms_) {
     if (hist == histograms_.front()) {
       hist->Draw("E");
@@ -91,6 +91,13 @@ void HistStack::init() {
 }
 
 void HistStack::setComfortableMax(double max) {
+  max *= 1.4;
+  unsigned int order = 0;
+  while (max < 1) {
+    max *= 10;
+    order++;
+  }
+  max = floor(max + 1) / pow(10, order);
   for (auto& hist : histograms_) {
     hist->GetYaxis()->SetRangeUser(0, max);
   }
