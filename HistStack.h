@@ -32,6 +32,7 @@ class HistStack {
   void setYAxisTitle(const std::string& title);
 
   std::vector<std::string> titles_;
+  std::vector<std::string> titles_short_;
   std::vector<TH1D*> histograms_;
 
 private:

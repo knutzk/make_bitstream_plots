@@ -42,6 +42,7 @@ void HistStack::createLegend(TLegend* legend) {
   for (const auto& hist : histograms_) {
     auto name = get_suffix(std::string(hist->GetName()));
     substitute_B_with_L(&name);
+    titles_short_.push_back(name);
     legend->AddEntry(hist, name.c_str());
   }
 }
