@@ -19,14 +19,19 @@ std::unique_ptr<TProfile> getVersusPileup(TH1D* pileup_hist, TH1D* hist);
 int main(int argc, char** argv) {
   SetAtlasStyle();
 
-  if (argc != 2) {
-    std::cerr << "Please provide file name" << std::endl;
+  if (argc != 3) {
+    std::cerr << "Wrong number of positional arguments" << std::endl;
+    std::cerr << "Usage: ./plot [input file] [run number]" << std::endl;
     return -1;
   }
 
   auto file = TFile::Open(argv[1], "READ");
   if (!file) return -1;
-  std::string path = "run_339849/Pixel/";
+  std::string path = "run_" + std::string(argv[2]) + "/Pixel/";
+  if (!file->GetDirectory(path.c_str())) {
+    std::cerr << "Directory " + path + " does not exist. Check run number" << std::endl;
+    return -1;
+  }
   auto canvas = new TCanvas("canvas", "canvas", 600, 600);
 
   // =======================================================
