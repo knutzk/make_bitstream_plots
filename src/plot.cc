@@ -19,9 +19,9 @@ std::unique_ptr<TProfile> getVersusPileup(TH1D* pileup_hist, TH1D* hist);
 int main(int argc, char** argv) {
   SetAtlasStyle();
 
-  if (argc != 3) {
+  if (argc != 4) {
     std::cerr << "Wrong number of positional arguments" << std::endl;
-    std::cerr << "Usage: ./plot [input file] [run number]" << std::endl;
+    std::cerr << "Usage: ./plot [input file] [run number] [fill number]" << std::endl;
     return -1;
   }
 
@@ -32,6 +32,8 @@ int main(int argc, char** argv) {
     std::cerr << "Directory " + path + " does not exist. Check run number" << std::endl;
     return -1;
   }
+  const std::string fill_number = argv[3];
+
   auto canvas = new TCanvas("canvas", "canvas", 600, 600);
 
   // =======================================================
@@ -71,7 +73,7 @@ int main(int argc, char** argv) {
   legend->Draw("SAME");
   ATLASLabel(0.24, 0.88, "Pixel Internal");
   SupportLabel(0.24, 0.82, "Assumed L1 rate: 100 kHz");
-  SupportLabel(0.24, 0.76, "LHC fill 6360");
+  SupportLabel(0.24, 0.76, "LHC fill " + fill_number);
   canvas->SaveAs("avg_bitstr_occ_errors_vs_mu.eps");
 
   // =======================================================
@@ -90,7 +92,7 @@ int main(int argc, char** argv) {
   legend->Draw("SAME");
   ATLASLabel(0.24, 0.88, "Pixel Internal");
   SupportLabel(0.24, 0.82, "Assumed L1 rate: 100 kHz");
-  SupportLabel(0.24, 0.76, "LHC fill 6360");
+  SupportLabel(0.24, 0.76, "LHC fill " + fill_number);
   canvas->SaveAs("avg_bitstr_occ_errors_vs_lumi.eps");
 
   // =======================================================
@@ -131,7 +133,7 @@ int main(int argc, char** argv) {
   legend->Draw("SAME");
   ATLASLabel(0.2, 0.88, "Pixel Internal");
   SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
-  SupportLabel(0.2, 0.76, "LHC fill 6360");
+  SupportLabel(0.2, 0.76, "LHC fill " + fill_number);
   canvas->SaveAs("avg_bitstr_occ_vs_mu.eps");
 
   // =======================================================
@@ -149,7 +151,7 @@ int main(int argc, char** argv) {
   legend->Draw("SAME");
   ATLASLabel(0.2, 0.88, "Pixel Internal");
   SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
-  SupportLabel(0.2, 0.76, "LHC fill 6360");
+  SupportLabel(0.2, 0.76, "LHC fill " + fill_number);
   canvas->SaveAs("avg_bitstr_occ_vs_lumi.eps");
 
   // =======================================================
