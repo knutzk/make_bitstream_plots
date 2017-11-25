@@ -115,6 +115,7 @@ void HistStack::printTable() {
     std::cout << pileup << "\t";
     for (const auto& hist : histograms_) {
       auto bin = hist->GetXaxis()->FindBin(pileup);
+      if (hist->GetBinContent(bin) == 0) break;
       std::cout << std::fixed << std::setprecision(1);
       std::cout << 100 * hist->GetBinContent(bin);
       std::cout << " +/- " << 100 * hist->GetBinError(bin);
