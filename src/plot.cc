@@ -19,7 +19,7 @@ int main() {
   SetAtlasStyle();
 
   auto file = TFile::Open("file.root", "READ");
-  std::string path = "run_339957/Pixel/Errors/";
+  std::string path = "run_339849/Pixel/";
   auto canvas = new TCanvas("canvas", "canvas", 600, 600);
 
   // =======================================================
@@ -30,15 +30,15 @@ int main() {
   gStyle->SetTitleYOffset(1.8);
 
   std::vector<std::string> hist_titles;
-  hist_titles.push_back("Bitstr_Occ_Errors_LB_B0");
-  hist_titles.push_back("Bitstr_Occ_Errors_LB_B1");
-  hist_titles.push_back("Bitstr_Occ_Errors_LB_B2");
-  hist_titles.push_back("Bitstr_Occ_Errors_LB_ECA");
-  hist_titles.push_back("Bitstr_Occ_Errors_LB_ECC");
+  hist_titles.push_back("Errors/Bitstr_Occ_Errors_LB_B0");
+  hist_titles.push_back("Errors/Bitstr_Occ_Errors_LB_B1");
+  hist_titles.push_back("Errors/Bitstr_Occ_Errors_LB_B2");
+  hist_titles.push_back("Errors/Bitstr_Occ_Errors_LB_ECA");
+  hist_titles.push_back("Errors/Bitstr_Occ_Errors_LB_ECC");
 
   std::vector<std::unique_ptr<TProfile>> versus_pileup;
   for (const auto& title : hist_titles) {
-    versus_pileup.push_back(getVersusPileup(static_cast<TH1D*>(openCleanProfile(file, "run_339957/Pixel/Hits/Interactions_vs_lumi")), static_cast<TH1D*>(openCleanProfile(file, path + title))));
+    versus_pileup.push_back(getVersusPileup(static_cast<TH1D*>(openCleanProfile(file, path + "Hits/Interactions_vs_lumi")), static_cast<TH1D*>(openCleanProfile(file, path + title))));
   }
 
   std::vector<TH1D*> versus_pileup_projection;
@@ -89,15 +89,15 @@ int main() {
   gStyle->SetTitleYOffset(1.4);
 
   hist_titles.clear();
-  hist_titles.push_back("Bitstr_Occ_Tot_LB_B0");
-  hist_titles.push_back("Bitstr_Occ_Tot_LB_B1");
-  hist_titles.push_back("Bitstr_Occ_Tot_LB_B2");
-  hist_titles.push_back("Bitstr_Occ_Tot_LB_ECA");
-  hist_titles.push_back("Bitstr_Occ_Tot_LB_ECC");
+  hist_titles.push_back("Errors/Bitstr_Occ_Tot_LB_B0");
+  hist_titles.push_back("Errors/Bitstr_Occ_Tot_LB_B1");
+  hist_titles.push_back("Errors/Bitstr_Occ_Tot_LB_B2");
+  hist_titles.push_back("Errors/Bitstr_Occ_Tot_LB_ECA");
+  hist_titles.push_back("Errors/Bitstr_Occ_Tot_LB_ECC");
 
   versus_pileup.clear();
   for (const auto& title : hist_titles) {
-    versus_pileup.push_back(getVersusPileup(static_cast<TH1D*>(openCleanProfile(file, "run_339957/Pixel/Hits/Interactions_vs_lumi")), static_cast<TH1D*>(openCleanProfile(file, path + title))));
+    versus_pileup.push_back(getVersusPileup(static_cast<TH1D*>(openCleanProfile(file, path + "Hits/Interactions_vs_lumi")), static_cast<TH1D*>(openCleanProfile(file, path + title))));
   }
 
   versus_pileup_projection.clear();
@@ -142,7 +142,7 @@ int main() {
   // =======================================================
   // Histograms for error words
 
-  auto hist = static_cast<TProfile*>(file->Get((path + "femcc_errorwords_merged_stat_B0").c_str()))->ProjectionX();
+  auto hist = static_cast<TProfile*>(file->Get((path + "Errors/femcc_errorwords_merged_stat_B0").c_str()))->ProjectionX();
   hist->SetBarWidth(0.8);
   hist->SetBarOffset(0.1);
   hist->SetFillColor(kBlue+2);
@@ -164,12 +164,12 @@ int main() {
   canvas->SetRightMargin(0.10);
   gStyle->SetLabelSize(0.04, "xy");
 
-  hist = static_cast<TH1D*>(file->Get((path + "femcc_errorwords_merged_B0").c_str()));
+  hist = static_cast<TH1D*>(file->Get((path + "Errors/femcc_errorwords_merged_B0").c_str()));
   hist->GetZaxis()->SetRangeUser(0, 5);
   hist->Draw();
   canvas->SaveAs("errorwords_merged.eps");
 
-  hist = static_cast<TH1D*>(file->Get((path + "femcc_errorwords_B0").c_str()));
+  hist = static_cast<TH1D*>(file->Get((path + "Errors/femcc_errorwords_B0").c_str()));
   hist->GetZaxis()->SetRangeUser(0, 5);
   hist->Draw();
   canvas->SaveAs("errorwords.eps");
