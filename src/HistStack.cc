@@ -22,10 +22,6 @@ HistStack::HistStack(TFile* file, const std::string& path, const std::vector<std
   : titles_(titles) {
   for (const auto& title : titles_) {
     auto hist = static_cast<TH1D*>(openCleanProfile(file, path + title));
-    if (!hist) {
-      std::cerr << "Histogram " << title << "not found. Skipping" << std::endl;
-      continue;
-    }
     histograms_.emplace_back(hist);
   }
 
