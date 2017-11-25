@@ -11,7 +11,7 @@ class TLegend;
 
 class HistStack {
  public:
-  HistStack(TFile* file, const std::string& path, const std::vector<std::string>& titles);
+  HistStack(TFile* file, const std::string& path, const std::vector<std::string>& titles, double x_max = 0);
 
   HistStack(std::vector<TH1D*> hists);
 
@@ -21,7 +21,7 @@ class HistStack {
 
   double getMax();
 
-  void init();
+  void init(double x_max = 0);
 
   void setComfortableMax(double max);
 

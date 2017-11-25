@@ -18,14 +18,14 @@ HistStack::HistStack(std::vector<TH1D*> hists)
   this->init();
 }
 
-HistStack::HistStack(TFile* file, const std::string& path, const std::vector<std::string>& titles)
+HistStack::HistStack(TFile* file, const std::string& path, const std::vector<std::string>& titles, double x_max)
   : titles_(titles) {
   for (const auto& title : titles_) {
     auto hist = static_cast<TH1D*>(openCleanProfile(file, path + title));
     histograms_.emplace_back(hist);
   }
 
-  this->init();
+  this->init(x_max);
 }
 
 void HistStack::createLegend(TLegend* legend) {
@@ -69,7 +69,7 @@ double HistStack::getMax() {
   return max;
 }
 
-void HistStack::init() {
+void HistStack::init(double x_max) {
   int marker_index = 0;
   int color_index = 0;
 
@@ -79,7 +79,7 @@ void HistStack::init() {
     if (color_index == 5) color_index++;
     if (marker_index == 3) marker_index++;
     if (hist->GetNbinsX() > 1000) hist->Rebin(100);
-    hist->GetXaxis()->SetRangeUser(0, 1800);
+    if (x_max != 0) hist->GetXaxis()->SetRangeUser(0, x_max);
     hist->SetMarkerColor(color_index);
     hist->SetLineColor(color_index);
     hist->SetMarkerStyle(19 + marker_index);

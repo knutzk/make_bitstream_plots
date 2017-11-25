@@ -83,7 +83,7 @@ int main(int argc, char** argv) {
   legend->SetTextFont(42);
   legend->SetTextSize(0.05);
 
-  stack.reset(new HistStack{file, path, hist_titles});
+  stack.reset(new HistStack{file, path, hist_titles, 1800});
   stack->setXAxisTitle("Lumi block");
   stack->setYAxisTitle("Average bandwidth occupancy");
   stack->setXAxisTicks(508);  // Don't cram the ticks on the x axis
@@ -142,7 +142,7 @@ int main(int argc, char** argv) {
   legend = new TLegend(0.8, 0.60, 0.9, 0.90);
   legend->SetTextFont(42);
   legend->SetTextSize(0.05);
-  stack.reset(new HistStack{file, path, hist_titles});
+  stack.reset(new HistStack{file, path, hist_titles, 1800});
   stack->setXAxisTitle("Lumi block");
   stack->setYAxisTitle("Average bandwidth occupancy");
   stack->setXAxisTicks(508);  // Don't cram the ticks on the x axis
