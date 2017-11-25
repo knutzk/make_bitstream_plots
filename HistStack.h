@@ -33,6 +33,9 @@ class HistStack {
 
   std::vector<std::string> titles_;
   std::vector<TH1D*> histograms_;
+
+private:
+  bool has_custom_max_{false};
 };
 
 #endif  // HISTSTACK_H_
