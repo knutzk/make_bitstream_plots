@@ -10,15 +10,22 @@
 #include "TLegend.h"
 #include "TCanvas.h"
 
+#include <iostream>
 #include <memory>
 
 void SupportLabel(double xpos, double ypos, const std::string& text);
 std::unique_ptr<TProfile> getVersusPileup(TH1D* pileup_hist, TH1D* hist);
 
-int main() {
+int main(int argc, char** argv) {
   SetAtlasStyle();
 
-  auto file = TFile::Open("file.root", "READ");
+  if (argc != 2) {
+    std::cerr << "Please provide file name" << std::endl;
+    return -1;
+  }
+
+  auto file = TFile::Open(argv[1], "READ");
+  if (!file) return -1;
   std::string path = "run_339849/Pixel/";
   auto canvas = new TCanvas("canvas", "canvas", 600, 600);
 
