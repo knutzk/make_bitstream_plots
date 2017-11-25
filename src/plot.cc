@@ -52,7 +52,9 @@ int main(int argc, char** argv) {
 
   std::vector<std::unique_ptr<TProfile>> versus_pileup;
   for (const auto& title : hist_titles) {
-    versus_pileup.push_back(getVersusPileup(static_cast<TH1D*>(openCleanProfile(file, path + "Hits/Interactions_vs_lumi")), static_cast<TH1D*>(openCleanProfile(file, path + title))));
+    versus_pileup.push_back(getVersusPileup(
+            static_cast<TH1D*>(openCleanProfile(file, path + "Hits/Interactions_vs_lumi")),
+            static_cast<TH1D*>(openCleanProfile(file, path + title))));
   }
 
   std::vector<TH1D*> versus_pileup_projection;
@@ -111,7 +113,9 @@ int main(int argc, char** argv) {
 
   versus_pileup.clear();
   for (const auto& title : hist_titles) {
-    versus_pileup.push_back(getVersusPileup(static_cast<TH1D*>(openCleanProfile(file, path + "Hits/Interactions_vs_lumi")), static_cast<TH1D*>(openCleanProfile(file, path + title))));
+    versus_pileup.push_back(getVersusPileup(
+            static_cast<TH1D*>(openCleanProfile(file, path + "Hits/Interactions_vs_lumi")),
+            static_cast<TH1D*>(openCleanProfile(file, path + title))));
   }
 
   versus_pileup_projection.clear();
