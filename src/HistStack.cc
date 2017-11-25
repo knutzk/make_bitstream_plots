@@ -7,6 +7,7 @@
 #include "TFile.h"
 #include "TProfile.h"
 
+#include <iomanip>
 #include <iostream>
 
 HistStack::HistStack(std::vector<TH1D*> hists)
@@ -98,6 +99,28 @@ void HistStack::setComfortableMax(double max) {
   max = floor(max + 1) / pow(10, order);
   for (auto& hist : histograms_) {
     hist->GetYaxis()->SetRangeUser(0, max);
+  }
+}
+
+void HistStack::printTable() {
+  // This prints the heads of the columns.
+  std::cout << "pile-up\t";
+  for (const auto& title : titles_short_) {
+    std::cout << title << "\t\t";
+  }
+  std::cout << std::endl;
+
+  // Retrieve values from histograms with range [30, 70].
+  for (unsigned int pileup = 30; pileup <= 70; pileup += 5) {
+    std::cout << pileup << "\t";
+    for (const auto& hist : histograms_) {
+      auto bin = hist->GetXaxis()->FindBin(pileup);
+      std::cout << std::fixed << std::setprecision(1);
+      std::cout << 100 * hist->GetBinContent(bin);
+      std::cout << " +/- " << 100 * hist->GetBinError(bin);
+      std::cout << "\t";
+    }
+    std::cout << std::endl;
   }
 }
 

@@ -136,6 +136,8 @@ int main(int argc, char** argv) {
   SupportLabel(0.2, 0.76, "LHC fill " + fill_number);
   canvas->SaveAs("avg_bitstr_occ_vs_mu.eps");
 
+  stack->printTable();
+
   // =======================================================
   // Total bit-stream occupancy vs. LB
 
