@@ -120,6 +120,7 @@ int main(int argc, char** argv) {
   stack.reset(new HistStack{versus_pileup_projection});
   stack->setXAxisTitle("Average #mu per lumi block");
   stack->setYAxisTitle("Average bandwidth occupancy");
+  stack->setComfortableMax(0.7);
   stack->createLegend(legend);
   stack->draw(canvas);
   legend->Draw("SAME");
