@@ -59,7 +59,6 @@ int main(int argc, char** argv) {
 
   std::vector<TH1D*> versus_pileup_projection;
   for (auto& hist : versus_pileup) {
-    hist->Rebin(2);
     versus_pileup_projection.push_back(hist->ProjectionX());
     versus_pileup_projection.back()->SetName(hist->GetName());
   }
@@ -70,6 +69,7 @@ int main(int argc, char** argv) {
   std::unique_ptr<HistStack> stack = std::make_unique<HistStack>(HistStack{versus_pileup_projection});
   stack->setXAxisTitle("Average #mu per lumi block");
   stack->setYAxisTitle("Average error bandwidth occupancy");
+  stack->setXAxisTicks(210);
   stack->createLegend(legend);
   stack->draw(canvas);
   legend->Draw("SAME");
@@ -120,7 +120,6 @@ int main(int argc, char** argv) {
 
   versus_pileup_projection.clear();
   for (auto& hist : versus_pileup) {
-    hist->Rebin(2);
     versus_pileup_projection.push_back(hist->ProjectionX());
     versus_pileup_projection.back()->SetName(hist->GetName());
   }
@@ -132,6 +131,7 @@ int main(int argc, char** argv) {
   stack->setXAxisTitle("Average #mu per lumi block");
   stack->setYAxisTitle("Average bandwidth occupancy");
   stack->setComfortableMax(0.7);
+  stack->setXAxisTicks(210);
   stack->createLegend(legend);
   stack->draw(canvas);
   legend->Draw("SAME");
@@ -211,12 +211,12 @@ std::unique_ptr<TProfile> getVersusPileup(TH1D* pileup_hist, TH1D* hist) {
   auto versus_pileup = std::unique_ptr<TProfile>{
     new TProfile{(std::string("neu_") + hist->GetName()).c_str(),
                  (hist->GetTitle() + std::string(";pile-up;bitstream occ./module")).c_str(),
-                 70, -0.5, 69.5}};
+                 18, 2.5, 92.5}};
 
   for (unsigned int i = 1; i < pileup_hist->GetNbinsX() + 1; ++i) {
     auto pileup = pileup_hist->GetBinContent(i);
     auto occ = hist->GetBinContent(i);
-    versus_pileup->Fill(pileup, occ);;
+    versus_pileup->Fill(pileup, occ);
   }
   return versus_pileup;
 }
