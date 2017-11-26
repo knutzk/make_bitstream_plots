@@ -80,7 +80,7 @@ void HistStack::init(double x_max) {
     marker_index++;
     if (color_index == 5) color_index++;
     if (marker_index == 3) marker_index++;
-    if (hist->GetNbinsX() > 1000) hist->Rebin(100);
+    if (hist->GetNbinsX() > 1000) hist->Rebin(50);
     if (x_max != 0) hist->GetXaxis()->SetRangeUser(0, x_max);
     hist->SetMarkerColor(color_index);
     hist->SetLineColor(color_index);
@@ -110,13 +110,13 @@ void HistStack::printTable() {
   }
   std::cout << std::endl;
 
-  // Retrieve values from histograms with range [30, 70].
-  for (unsigned int pileup = 30; pileup <= 70; pileup += 5) {
+  // Retrieve values from histograms with range [30, 80].
+  for (unsigned int pileup = 30; pileup <= 80; pileup += 5) {
     std::cout << pileup << "\t";
     for (const auto& hist : histograms_) {
       auto bin = hist->GetXaxis()->FindBin(pileup);
       if (hist->GetBinContent(bin) == 0) break;
-      std::cout << std::fixed << std::setprecision(1);
+      std::cout << std::fixed << std::setprecision(2);
       std::cout << 100 * hist->GetBinContent(bin);
       std::cout << " +/- " << 100 * hist->GetBinError(bin);
       std::cout << "\t";
