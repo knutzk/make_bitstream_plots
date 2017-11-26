@@ -90,7 +90,7 @@ void HistStack::init(double x_max) {
 
 void HistStack::setComfortableMax(double max) {
   has_custom_max_ = true;
-  max *= 1.4;
+  max *= 1.3;
   unsigned int order = 0;
   while (max < 1) {
     max *= 10;
