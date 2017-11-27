@@ -152,6 +152,7 @@ int main(int argc, char** argv) {
   stack->setXAxisTitle("Lumi block");
   stack->setYAxisTitle("Average bandwidth occupancy");
   stack->setXAxisTicks(508);  // Don't cram the ticks on the x axis
+  stack->setComfortableMax(0.7);
   stack->createLegend(legend);
   stack->draw(canvas);
   legend->Draw("SAME");
