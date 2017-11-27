@@ -10,20 +10,9 @@
 #include <iomanip>
 #include <iostream>
 
-HistStack::HistStack(std::vector<TH1D*> hists) {
-  for (const auto& hist : hists) {
-    // histograms_.emplace_back(std::make_unique<TH1D>(hist->Clone()));
-    histograms_.emplace_back(dynamic_cast<TH1D*>(hist->Clone()));
-    titles_.push_back(hist->GetName());
-  }
-
-  this->init();
-}
-
 HistStack::HistStack(TFile* file, const std::string& path, const std::vector<std::string>& titles, double x_max)
   : titles_(titles) {
   for (const auto& title : titles_) {
-    // std::unique_ptr<TH1D> hist = std::make_unique<TH1D>(static_cast<TH1D*>(openCleanProfile(file, path + title)->Clone()));
     std::unique_ptr<TH1D> hist{static_cast<TH1D*>(openCleanProfile(file, path + title)->Clone())};
     histograms_.emplace_back(std::move(hist));
   }

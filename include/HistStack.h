@@ -12,9 +12,9 @@ class TLegend;
 
 class HistStack {
  public:
-  HistStack(TFile* file, const std::string& path, const std::vector<std::string>& titles, double x_max = 0);
+  inline HistStack(const std::vector<std::string>& titles) : titles_(titles) {};
 
-  HistStack(std::vector<TH1D*> hists);
+  HistStack(TFile* file, const std::string& path, const std::vector<std::string>& titles, double x_max = 0);
 
   void createLegend(TLegend* legend);
 

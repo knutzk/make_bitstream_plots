@@ -1,4 +1,5 @@
 #include "HistStack.h"
+#include "PileupHistStack.h"
 #include "HistCleaner.h"
 #include "AtlasStyle.h"
 #include "AtlasLabels.h"
@@ -14,7 +15,6 @@
 #include <memory>
 
 void SupportLabel(double xpos, double ypos, const std::string& text);
-std::unique_ptr<TProfile> getVersusPileup(TH1D* pileup_hist, TH1D* hist);
 
 int main(int argc, char** argv) {
   SetAtlasStyle();
@@ -50,28 +50,16 @@ int main(int argc, char** argv) {
   hist_titles.push_back("Errors/Bitstr_Occ_Errors_LB_ECA");
   hist_titles.push_back("Errors/Bitstr_Occ_Errors_LB_ECC");
 
-  std::vector<std::unique_ptr<TProfile>> versus_pileup;
-  for (const auto& title : hist_titles) {
-    versus_pileup.push_back(getVersusPileup(
-            static_cast<TH1D*>(openCleanProfile(file, path + "Hits/Interactions_vs_lumi")),
-            static_cast<TH1D*>(openCleanProfile(file, path + title))));
-  }
-
-  std::vector<TH1D*> versus_pileup_projection;
-  for (auto& hist : versus_pileup) {
-    versus_pileup_projection.push_back(hist->ProjectionX());
-    versus_pileup_projection.back()->SetName(hist->GetName());
-  }
+  auto pileup_stack = std::make_unique<PileupHistStack>(PileupHistStack{file, path, hist_titles});
 
   auto legend = new TLegend(0.8, 0.6, 0.9, 0.9);
   legend->SetTextFont(42);
   legend->SetTextSize(0.05);
-  std::unique_ptr<HistStack> stack = std::make_unique<HistStack>(HistStack{versus_pileup_projection});
-  stack->setXAxisTitle("Average #mu per lumi block");
-  stack->setYAxisTitle("Average error bandwidth usage");
-  stack->setXAxisTicks(210);
-  stack->createLegend(legend);
-  stack->draw(&canvas);
+  pileup_stack->setXAxisTitle("Average #mu per lumi block");
+  pileup_stack->setYAxisTitle("Average error bandwidth usage");
+  pileup_stack->setXAxisTicks(210);
+  pileup_stack->createLegend(legend);
+  pileup_stack->draw(&canvas);
   legend->Draw("SAME");
   ATLASLabel(0.24, 0.88, "Pixel Internal");
   SupportLabel(0.24, 0.82, "Assumed L1 rate: 100 kHz");
@@ -85,7 +73,7 @@ int main(int argc, char** argv) {
   legend->SetTextFont(42);
   legend->SetTextSize(0.05);
 
-  stack.reset(new HistStack{file, path, hist_titles, 1200});
+  auto stack = std::make_unique<HistStack>(HistStack{file, path, hist_titles, 1200});
   stack->setXAxisTitle("Lumi block");
   stack->setYAxisTitle("Average error bandwidth usage");
   stack->setXAxisTicks(508);  // Don't cram the ticks on the x axis
@@ -111,36 +99,24 @@ int main(int argc, char** argv) {
   hist_titles.push_back("Errors/Bitstr_Occ_Tot_LB_ECA");
   hist_titles.push_back("Errors/Bitstr_Occ_Tot_LB_ECC");
 
-  versus_pileup.clear();
-  for (const auto& title : hist_titles) {
-    versus_pileup.push_back(getVersusPileup(
-            static_cast<TH1D*>(openCleanProfile(file, path + "Hits/Interactions_vs_lumi")),
-            static_cast<TH1D*>(openCleanProfile(file, path + title))));
-  }
-
-  versus_pileup_projection.clear();
-  for (auto& hist : versus_pileup) {
-    versus_pileup_projection.push_back(hist->ProjectionX());
-    versus_pileup_projection.back()->SetName(hist->GetName());
-  }
+  pileup_stack.reset(new PileupHistStack{file, path, hist_titles});
 
   legend = new TLegend(0.2, 0.42, 0.3, 0.72);
   legend->SetTextFont(42);
   legend->SetTextSize(0.05);
-  stack.reset(new HistStack{versus_pileup_projection});
-  stack->setXAxisTitle("Average #mu per lumi block");
-  stack->setYAxisTitle("Average bandwidth usage");
-  stack->setComfortableMax(0.7);
-  stack->setXAxisTicks(210);
-  stack->createLegend(legend);
-  stack->draw(&canvas);
+  pileup_stack->setXAxisTitle("Average #mu per lumi block");
+  pileup_stack->setYAxisTitle("Average bandwidth usage");
+  pileup_stack->setComfortableMax(0.7);
+  pileup_stack->setXAxisTicks(210);
+  pileup_stack->createLegend(legend);
+  pileup_stack->draw(&canvas);
   legend->Draw("SAME");
   ATLASLabel(0.2, 0.88, "Pixel Internal");
   SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
   SupportLabel(0.2, 0.76, "LHC fill " + fill_number);
   canvas.SaveAs("output/avg_bitstr_occ_vs_mu.eps");
 
-  stack->printTable();
+  pileup_stack->printTable();
 
   // =======================================================
   // Total bit-stream usage vs. LB
