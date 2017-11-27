@@ -34,13 +34,13 @@ int main(int argc, char** argv) {
   }
   const std::string fill_number = argv[3];
 
-  auto canvas = new TCanvas("canvas", "canvas", 600, 600);
+  TCanvas canvas{"canvas", "canvas", 600, 600};
 
   // =======================================================
   // Bit-stream occupancy by FE/MCC errors
 
   // We need more space on the left for these plots.
-  canvas->SetLeftMargin(0.2);
+  canvas.SetLeftMargin(0.2);
   gStyle->SetTitleYOffset(1.8);
 
   std::vector<std::string> hist_titles;
@@ -71,16 +71,16 @@ int main(int argc, char** argv) {
   stack->setYAxisTitle("Average error bandwidth usage");
   stack->setXAxisTicks(210);
   stack->createLegend(legend);
-  stack->draw(canvas);
+  stack->draw(&canvas);
   legend->Draw("SAME");
   ATLASLabel(0.24, 0.88, "Pixel Internal");
   SupportLabel(0.24, 0.82, "Assumed L1 rate: 100 kHz");
   SupportLabel(0.24, 0.76, "LHC fill " + fill_number);
-  canvas->SaveAs("avg_bitstr_occ_errors_vs_mu.eps");
+  canvas.SaveAs("output/avg_bitstr_occ_errors_vs_mu.eps");
 
   // =======================================================
 
-  canvas->Clear();
+  canvas.Clear();
   legend = new TLegend(0.24, 0.42, 0.34, 0.72);
   legend->SetTextFont(42);
   legend->SetTextSize(0.05);
@@ -90,18 +90,18 @@ int main(int argc, char** argv) {
   stack->setYAxisTitle("Average error bandwidth usage");
   stack->setXAxisTicks(508);  // Don't cram the ticks on the x axis
   stack->createLegend(legend);
-  stack->draw(canvas);
+  stack->draw(&canvas);
   legend->Draw("SAME");
   ATLASLabel(0.24, 0.88, "Pixel Internal");
   SupportLabel(0.24, 0.82, "Assumed L1 rate: 100 kHz");
   SupportLabel(0.24, 0.76, "LHC fill " + fill_number);
-  canvas->SaveAs("avg_bitstr_occ_errors_vs_lumi.eps");
+  canvas.SaveAs("output/avg_bitstr_occ_errors_vs_lumi.eps");
 
   // =======================================================
   // Total bit-stream usage vs. pile-up
 
   // Reverting back to standard ATLAS style.
-  canvas->SetLeftMargin(0.16);
+  canvas.SetLeftMargin(0.16);
   gStyle->SetTitleYOffset(1.4);
 
   hist_titles.clear();
@@ -133,12 +133,12 @@ int main(int argc, char** argv) {
   stack->setComfortableMax(0.7);
   stack->setXAxisTicks(210);
   stack->createLegend(legend);
-  stack->draw(canvas);
+  stack->draw(&canvas);
   legend->Draw("SAME");
   ATLASLabel(0.2, 0.88, "Pixel Internal");
   SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
   SupportLabel(0.2, 0.76, "LHC fill " + fill_number);
-  canvas->SaveAs("avg_bitstr_occ_vs_mu.eps");
+  canvas.SaveAs("output/avg_bitstr_occ_vs_mu.eps");
 
   stack->printTable();
 
@@ -154,12 +154,12 @@ int main(int argc, char** argv) {
   stack->setXAxisTicks(508);  // Don't cram the ticks on the x axis
   stack->setComfortableMax(0.7);
   stack->createLegend(legend);
-  stack->draw(canvas);
+  stack->draw(&canvas);
   legend->Draw("SAME");
   ATLASLabel(0.2, 0.88, "Pixel Internal");
   SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
   SupportLabel(0.2, 0.76, "LHC fill " + fill_number);
-  canvas->SaveAs("avg_bitstr_occ_vs_lumi.eps");
+  canvas.SaveAs("output/avg_bitstr_occ_vs_lumi.eps");
 
   // =======================================================
   // Histograms for error words
@@ -180,21 +180,21 @@ int main(int argc, char** argv) {
   hist_bg->Draw("HIST BAR1");
 
   hist->Draw("HIST BAR1 SAME");
-  canvas->SaveAs("errorwords_stat.eps");
+  canvas.SaveAs("output/errorwords_stat.eps");
 
   // Design adjustments for the 2D module maps
-  canvas->SetRightMargin(0.10);
+  canvas.SetRightMargin(0.10);
   gStyle->SetLabelSize(0.04, "xy");
 
   hist = static_cast<TH1D*>(file->Get((path + "Errors/femcc_errorwords_merged_B0").c_str()));
   hist->GetZaxis()->SetRangeUser(0, 5);
   hist->Draw();
-  canvas->SaveAs("errorwords_merged.eps");
+  canvas.SaveAs("output/errorwords_merged.eps");
 
   hist = static_cast<TH1D*>(file->Get((path + "Errors/femcc_errorwords_B0").c_str()));
   hist->GetZaxis()->SetRangeUser(0, 5);
   hist->Draw();
-  canvas->SaveAs("errorwords.eps");
+  canvas.SaveAs("output/errorwords.eps");
 
   return 0;
 }
