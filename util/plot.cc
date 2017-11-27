@@ -19,9 +19,9 @@ void SupportLabel(double xpos, double ypos, const std::string& text);
 int main(int argc, char** argv) {
   SetAtlasStyle();
 
-  if (argc != 4) {
+  if (argc != 3) {
     std::cerr << "Wrong number of positional arguments" << std::endl;
-    std::cerr << "Usage: ./plot [input file] [run number] [fill number]" << std::endl;
+    std::cerr << "Usage: ./plot [input file] [run number]" << std::endl;
     return -1;
   }
 
@@ -32,7 +32,9 @@ int main(int argc, char** argv) {
     std::cerr << "Directory " + path + " does not exist. Check run number" << std::endl;
     return -1;
   }
-  const std::string fill_number = argv[3];
+
+  std::string fill_number = "???";
+  if (std::string(argv[2]).find("339849") != std::string::npos) fill_number = "6358";
 
   TCanvas canvas{"canvas", "canvas", 600, 600};
 
