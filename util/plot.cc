@@ -68,7 +68,7 @@ int main(int argc, char** argv) {
   legend->SetTextSize(0.05);
   std::unique_ptr<HistStack> stack = std::make_unique<HistStack>(HistStack{versus_pileup_projection});
   stack->setXAxisTitle("Average #mu per lumi block");
-  stack->setYAxisTitle("Average error bandwidth occupancy");
+  stack->setYAxisTitle("Average error bandwidth usage");
   stack->setXAxisTicks(210);
   stack->createLegend(legend);
   stack->draw(canvas);
@@ -87,7 +87,7 @@ int main(int argc, char** argv) {
 
   stack.reset(new HistStack{file, path, hist_titles, 1200});
   stack->setXAxisTitle("Lumi block");
-  stack->setYAxisTitle("Average error bandwidth occupancy");
+  stack->setYAxisTitle("Average error bandwidth usage");
   stack->setXAxisTicks(508);  // Don't cram the ticks on the x axis
   stack->createLegend(legend);
   stack->draw(canvas);
@@ -98,7 +98,7 @@ int main(int argc, char** argv) {
   canvas->SaveAs("avg_bitstr_occ_errors_vs_lumi.eps");
 
   // =======================================================
-  // Total bit-stream occupancy vs. pile-up
+  // Total bit-stream usage vs. pile-up
 
   // Reverting back to standard ATLAS style.
   canvas->SetLeftMargin(0.16);
@@ -129,7 +129,7 @@ int main(int argc, char** argv) {
   legend->SetTextSize(0.05);
   stack.reset(new HistStack{versus_pileup_projection});
   stack->setXAxisTitle("Average #mu per lumi block");
-  stack->setYAxisTitle("Average bandwidth occupancy");
+  stack->setYAxisTitle("Average bandwidth usage");
   stack->setComfortableMax(0.7);
   stack->setXAxisTicks(210);
   stack->createLegend(legend);
@@ -143,14 +143,14 @@ int main(int argc, char** argv) {
   stack->printTable();
 
   // =======================================================
-  // Total bit-stream occupancy vs. LB
+  // Total bit-stream usage vs. LB
 
   legend = new TLegend(0.8, 0.60, 0.9, 0.90);
   legend->SetTextFont(42);
   legend->SetTextSize(0.05);
   stack.reset(new HistStack{file, path, hist_titles, 1200});
   stack->setXAxisTitle("Lumi block");
-  stack->setYAxisTitle("Average bandwidth occupancy");
+  stack->setYAxisTitle("Average bandwidth usage");
   stack->setXAxisTicks(508);  // Don't cram the ticks on the x axis
   stack->setComfortableMax(0.7);
   stack->createLegend(legend);
