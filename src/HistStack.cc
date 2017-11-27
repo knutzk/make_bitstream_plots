@@ -93,29 +93,6 @@ void HistStack::setComfortableMax(double max) {
   }
 }
 
-void HistStack::printTable() {
-  // This prints the heads of the columns.
-  std::cout << "pile-up\t";
-  for (const auto& title : titles_short_) {
-    std::cout << title << "\t\t";
-  }
-  std::cout << std::endl;
-
-  // Retrieve values from histograms with range [30, 80].
-  for (unsigned int pileup = 30; pileup <= 80; pileup += 5) {
-    std::cout << pileup << "\t";
-    for (const auto& hist : histograms_) {
-      auto bin = hist->GetXaxis()->FindBin(pileup);
-      if (hist->GetBinContent(bin) == 0) break;
-      std::cout << std::fixed << std::setprecision(1);
-      std::cout << 100 * hist->GetBinContent(bin);
-      std::cout << " +/- " << 100 * hist->GetBinError(bin) + 0.04999;
-      std::cout << "\t";
-    }
-    std::cout << std::endl;
-  }
-}
-
 void HistStack::setXAxisTitle(const std::string& title) {
   for (auto& hist : histograms_) {
     hist->GetXaxis()->SetTitle(title.c_str());

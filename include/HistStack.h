@@ -24,8 +24,6 @@ class HistStack {
 
   void init(double x_max = 0);
 
-  void printTable();
-
   void setComfortableMax(double max);
 
   void setXAxisTitle(const std::string& title);
