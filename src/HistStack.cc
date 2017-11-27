@@ -10,9 +10,10 @@
 #include <iomanip>
 #include <iostream>
 
-HistStack::HistStack(std::vector<TH1D*> hists)
-  : histograms_(hists) {
+HistStack::HistStack(std::vector<TH1D*> hists) {
   for (const auto& hist : hists) {
+    // histograms_.emplace_back(std::make_unique<TH1D>(hist->Clone()));
+    histograms_.emplace_back(dynamic_cast<TH1D*>(hist->Clone()));
     titles_.push_back(hist->GetName());
   }
 
@@ -22,8 +23,9 @@ HistStack::HistStack(std::vector<TH1D*> hists)
 HistStack::HistStack(TFile* file, const std::string& path, const std::vector<std::string>& titles, double x_max)
   : titles_(titles) {
   for (const auto& title : titles_) {
-    auto hist = static_cast<TH1D*>(openCleanProfile(file, path + title));
-    histograms_.emplace_back(hist);
+    // std::unique_ptr<TH1D> hist = std::make_unique<TH1D>(static_cast<TH1D*>(openCleanProfile(file, path + title)->Clone()));
+    std::unique_ptr<TH1D> hist{static_cast<TH1D*>(openCleanProfile(file, path + title)->Clone())};
+    histograms_.emplace_back(std::move(hist));
   }
 
   this->init(x_max);
@@ -44,7 +46,7 @@ void HistStack::createLegend(TLegend* legend) {
     auto name = get_suffix(std::string(hist->GetName()));
     substitute_B_with_L(&name);
     titles_short_.push_back(name);
-    legend->AddEntry(hist, name.c_str());
+    legend->AddEntry(hist.get(), name.c_str());
   }
 }
 

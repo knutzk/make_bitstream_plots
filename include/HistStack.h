@@ -1,6 +1,7 @@
 #ifndef HISTSTACK_H_
 #define HISTSTACK_H_
 
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -35,7 +36,7 @@ class HistStack {
 
   std::vector<std::string> titles_;
   std::vector<std::string> titles_short_;
-  std::vector<TH1D*> histograms_;
+  std::vector<std::unique_ptr<TH1D>> histograms_;
 
 private:
   bool has_custom_max_{false};
