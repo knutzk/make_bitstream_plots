@@ -20,6 +20,7 @@ PileupHistStack::PileupHistStack(TFile* file,
     auto name = std::string("neu_") + hist->GetName();
     auto title_inc_axes = hist->GetTitle() + std::string(";pile-up;bitstream occ./module");
     auto pileup_hist = std::make_unique<TProfile>(TProfile{name.c_str(), title_inc_axes.c_str(), 18, 2.5, 92.5});
+    pileup_hist->Approximate(kTRUE);
 
     for (unsigned int i = 1; i < pileup->GetNbinsX() + 1; ++i) {
       auto pu = pileup->GetBinContent(i);
