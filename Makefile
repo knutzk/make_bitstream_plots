@@ -6,7 +6,7 @@ DIR := src
 TARGET := plot
 
 # Set flags
-CFLAGS := -I./ `root-config --cflags`
+CFLAGS := -I./include `root-config --cflags`
 LIBS := `root-config --libs`
 MISCFLAGS := -fdiagnostics-color=always
 DEBUGFLAGS := -O0 -g2
