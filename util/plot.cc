@@ -38,6 +38,14 @@ int main(int argc, char** argv) {
 
   TCanvas canvas{"canvas", "canvas", 600, 600};
 
+  TLegend legend{0.8, 0.6, 0.9, 0.9};
+  legend.SetTextFont(42);
+  legend.SetTextSize(0.05);
+
+  TLegend left_legend{0.24, 0.42, 0.34, 0.72};
+  left_legend.SetTextFont(42);
+  left_legend.SetTextSize(0.05);
+
   // =======================================================
   // Bit-stream occupancy by FE/MCC errors
 
@@ -54,43 +62,39 @@ int main(int argc, char** argv) {
 
   auto pileup_stack = std::make_unique<PileupHistStack>(PileupHistStack{file, path, hist_titles});
 
-  auto legend = new TLegend(0.8, 0.6, 0.9, 0.9);
-  legend->SetTextFont(42);
-  legend->SetTextSize(0.05);
   pileup_stack->setXAxisTitle("Average #mu per lumi block");
   pileup_stack->setYAxisTitle("Average error bandwidth usage");
   pileup_stack->setXAxisTicks(210);
-  pileup_stack->createLegend(legend);
+  pileup_stack->createLegend(&legend);
   pileup_stack->draw(&canvas);
-  legend->Draw("SAME");
+  legend.Draw("SAME");
   ATLASLabel(0.24, 0.88, "Pixel Internal");
   SupportLabel(0.24, 0.82, "Assumed L1 rate: 100 kHz");
   SupportLabel(0.24, 0.76, "LHC fill " + fill_number);
   canvas.SaveAs("output/avg_bitstr_occ_errors_vs_mu.eps");
+  legend.Clear();
 
   // =======================================================
-
-  canvas.Clear();
-  legend = new TLegend(0.24, 0.42, 0.34, 0.72);
-  legend->SetTextFont(42);
-  legend->SetTextSize(0.05);
 
   auto stack = std::make_unique<HistStack>(HistStack{file, path, hist_titles, 1200});
   stack->setXAxisTitle("Lumi block");
   stack->setYAxisTitle("Average error bandwidth usage");
   stack->setXAxisTicks(508);  // Don't cram the ticks on the x axis
-  stack->createLegend(legend);
+  stack->createLegend(&left_legend);
   stack->draw(&canvas);
-  legend->Draw("SAME");
+  left_legend.Draw("SAME");
   ATLASLabel(0.24, 0.88, "Pixel Internal");
   SupportLabel(0.24, 0.82, "Assumed L1 rate: 100 kHz");
   SupportLabel(0.24, 0.76, "LHC fill " + fill_number);
   canvas.SaveAs("output/avg_bitstr_occ_errors_vs_lumi.eps");
+  left_legend.Clear();
 
   // =======================================================
   // Total bit-stream usage vs. pile-up
 
   // Reverting back to standard ATLAS style.
+  left_legend.SetX1NDC(0.20);
+  left_legend.SetX2NDC(0.30);
   canvas.SetLeftMargin(0.16);
   gStyle->SetTitleYOffset(1.4);
 
@@ -103,41 +107,37 @@ int main(int argc, char** argv) {
 
   pileup_stack.reset(new PileupHistStack{file, path, hist_titles});
 
-  legend = new TLegend(0.2, 0.42, 0.3, 0.72);
-  legend->SetTextFont(42);
-  legend->SetTextSize(0.05);
   pileup_stack->setXAxisTitle("Average #mu per lumi block");
   pileup_stack->setYAxisTitle("Average bandwidth usage");
   pileup_stack->setComfortableMax(0.7);
   pileup_stack->setXAxisTicks(210);
-  pileup_stack->createLegend(legend);
+  pileup_stack->createLegend(&left_legend);
   pileup_stack->draw(&canvas);
-  legend->Draw("SAME");
+  left_legend.Draw("SAME");
   ATLASLabel(0.2, 0.88, "Pixel Internal");
   SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
   SupportLabel(0.2, 0.76, "LHC fill " + fill_number);
   canvas.SaveAs("output/avg_bitstr_occ_vs_mu.eps");
+  left_legend.Clear();
 
   pileup_stack->printTable();
 
   // =======================================================
   // Total bit-stream usage vs. LB
 
-  legend = new TLegend(0.8, 0.60, 0.9, 0.90);
-  legend->SetTextFont(42);
-  legend->SetTextSize(0.05);
   stack.reset(new HistStack{file, path, hist_titles, 1200});
   stack->setXAxisTitle("Lumi block");
   stack->setYAxisTitle("Average bandwidth usage");
   stack->setXAxisTicks(508);  // Don't cram the ticks on the x axis
   stack->setComfortableMax(0.7);
-  stack->createLegend(legend);
+  stack->createLegend(&legend);
   stack->draw(&canvas);
-  legend->Draw("SAME");
+  legend.Draw("SAME");
   ATLASLabel(0.2, 0.88, "Pixel Internal");
   SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
   SupportLabel(0.2, 0.76, "LHC fill " + fill_number);
   canvas.SaveAs("output/avg_bitstr_occ_vs_lumi.eps");
+  legend.Clear();
 
   // =======================================================
   // Histograms for error words
