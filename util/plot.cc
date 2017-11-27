@@ -183,19 +183,3 @@ void SupportLabel(double xpos, double ypos, const std::string& text) {
   p.SetTextFont(42);
   p.DrawLatex(xpos, ypos, text.c_str());
 }
-
-std::unique_ptr<TProfile> getVersusPileup(TH1D* pileup_hist, TH1D* hist) {
-  if (!pileup_hist) return nullptr;
-  if (!hist) return nullptr;
-  auto versus_pileup = std::unique_ptr<TProfile>{
-    new TProfile{(std::string("neu_") + hist->GetName()).c_str(),
-                 (hist->GetTitle() + std::string(";pile-up;bitstream occ./module")).c_str(),
-                 18, 2.5, 92.5}};
-
-  for (unsigned int i = 1; i < pileup_hist->GetNbinsX() + 1; ++i) {
-    auto pileup = pileup_hist->GetBinContent(i);
-    auto occ = hist->GetBinContent(i);
-    versus_pileup->Fill(pileup, occ);
-  }
-  return versus_pileup;
-}
