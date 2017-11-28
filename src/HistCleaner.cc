@@ -6,7 +6,7 @@ TProfile* openCleanProfile(TFile* file, const std::string& name) {
   if (!hist) {
     throw std::invalid_argument{"Histogram " + name + " could not be found"};
   }
-  for (unsigned int i = 0; i < 122; ++i) {
+  for (unsigned int i = 0; i < 124; ++i) {
     hist->SetBinContent(i, 0);
     hist->SetBinEntries(i, 0);
     hist->SetBinError(i, 0);
