@@ -36,18 +36,19 @@ int main(int argc, char** argv) {
   std::string fill_number = "???";
   if (std::string(argv[2]).find("339849") != std::string::npos) fill_number = "6358";
 
+  // Canvases and legends
   TCanvas canvas{"canvas", "canvas", 600, 600};
-
   TLegend legend{0.8, 0.6, 0.9, 0.9};
   legend.SetTextFont(42);
   legend.SetTextSize(0.05);
-
   TLegend left_legend{0.24, 0.42, 0.34, 0.72};
   left_legend.SetTextFont(42);
   left_legend.SetTextSize(0.05);
 
   // =======================================================
-  // Bit-stream occupancy by FE/MCC errors
+  // =======================================================
+  // Plots for: bit-stream usage by FE/MCC Errors
+  // =======================================================
 
   // We need more space on the left for these plots.
   canvas.SetLeftMargin(0.2);
@@ -61,7 +62,6 @@ int main(int argc, char** argv) {
   hist_titles.push_back("Errors/Bitstr_Occ_Errors_LB_ECC");
 
   auto pileup_stack = std::make_unique<PileupHistStack>(PileupHistStack{file, path, hist_titles});
-
   pileup_stack->setXAxisTitle("Average #mu per lumi block");
   pileup_stack->setYAxisTitle("Average error bandwidth usage");
   pileup_stack->setXAxisTicks(210);
@@ -73,8 +73,6 @@ int main(int argc, char** argv) {
   SupportLabel(0.24, 0.76, "LHC fill " + fill_number);
   canvas.SaveAs("output/avg_bitstr_occ_errors_vs_mu.eps");
   legend.Clear();
-
-  // =======================================================
 
   auto stack = std::make_unique<HistStack>(HistStack{file, path, hist_titles, 1200});
   stack->setXAxisTitle("Lumi block");
@@ -90,7 +88,9 @@ int main(int argc, char** argv) {
   left_legend.Clear();
 
   // =======================================================
-  // Total bit-stream usage vs. pile-up
+  // =======================================================
+  // Plots for: total bit-stream usage
+  // =======================================================
 
   // Reverting back to standard ATLAS style.
   left_legend.SetX1NDC(0.20);
@@ -106,7 +106,6 @@ int main(int argc, char** argv) {
   hist_titles.push_back("Errors/Bitstr_Occ_Tot_LB_ECC");
 
   pileup_stack.reset(new PileupHistStack{file, path, hist_titles});
-
   pileup_stack->setXAxisTitle("Average #mu per lumi block");
   pileup_stack->setYAxisTitle("Average bandwidth usage");
   pileup_stack->setComfortableMax(0.7);
@@ -119,11 +118,7 @@ int main(int argc, char** argv) {
   SupportLabel(0.2, 0.76, "LHC fill " + fill_number);
   canvas.SaveAs("output/avg_bitstr_occ_vs_mu.eps");
   left_legend.Clear();
-
   pileup_stack->printTable();
-
-  // =======================================================
-  // Total bit-stream usage vs. LB
 
   stack.reset(new HistStack{file, path, hist_titles, 1200});
   stack->setXAxisTitle("Lumi block");
@@ -140,7 +135,9 @@ int main(int argc, char** argv) {
   legend.Clear();
 
   // =======================================================
-  // Histograms for error words
+  // =======================================================
+  // Plots for: error words (on L0)
+  // =======================================================
 
   auto hist = static_cast<TProfile*>(file->Get((path + "Errors/femcc_errorwords_merged_stat_B0").c_str()))->ProjectionX();
   hist->SetBarWidth(0.8);
