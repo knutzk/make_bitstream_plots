@@ -3,7 +3,7 @@ CC := g++
 
 # Set the directories
 DIR := src
-TARGET := plot
+TARGET := plot.exe
 
 # Set flags
 CFLAGS := -I./include `root-config --cflags`
