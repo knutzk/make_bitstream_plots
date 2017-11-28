@@ -1,14 +1,11 @@
 #include "HistStack.h"
 #include "HistCleaner.h"
 
-#include "TH1D.h"
 #include "TCanvas.h"
-#include "TLegend.h"
 #include "TFile.h"
+#include "TH1D.h"
+#include "TLegend.h"
 #include "TProfile.h"
-
-#include <iomanip>
-#include <iostream>
 
 HistStack::HistStack(TFile* file, const std::string& path, const std::vector<std::string>& titles, double x_max)
   : titles_(titles) {

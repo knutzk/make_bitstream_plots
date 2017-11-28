@@ -4,6 +4,9 @@
 #include "TFile.h"
 #include "TProfile.h"
 
+#include <iomanip>
+#include <iostream>
+
 PileupHistStack::PileupHistStack(TFile* file,
                                  const std::string& path,
                                  const std::vector<std::string>& titles)

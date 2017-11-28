@@ -1,5 +1,5 @@
-#include "TProfile.h"
 #include "TFile.h"
+#include "TProfile.h"
 
 TProfile* openCleanProfile(TFile* file, const std::string& name) {
   auto hist = static_cast<TProfile*>(file->Get(name.c_str()));
