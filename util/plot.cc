@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
   legend.Draw("SAME");
   ATLASLabel(0.24, 0.88, "Pixel Internal");
   SupportLabel(0.24, 0.82, "Assumed L1 rate: 100 kHz");
-  SupportLabel(0.24, 0.76, "LHC fill " + fill_number);
+  SupportLabel(0.24, 0.76, "Fill " + fill_number);
   canvas.SaveAs("output/avg_bitstr_occ_errors_vs_mu.eps");
   canvas.SaveAs("output/avg_bitstr_occ_errors_vs_mu.pdf");
   canvas.SaveAs("output/avg_bitstr_occ_errors_vs_mu.png");
@@ -85,7 +85,7 @@ int main(int argc, char** argv) {
   left_legend.Draw("SAME");
   ATLASLabel(0.24, 0.88, "Pixel Internal");
   SupportLabel(0.24, 0.82, "Assumed L1 rate: 100 kHz");
-  SupportLabel(0.24, 0.76, "LHC fill " + fill_number);
+  SupportLabel(0.24, 0.76, "Fill " + fill_number);
   canvas.SaveAs("output/avg_bitstr_occ_errors_vs_lumi.eps");
   canvas.SaveAs("output/avg_bitstr_occ_errors_vs_lumi.pdf");
   canvas.SaveAs("output/avg_bitstr_occ_errors_vs_lumi.png");
@@ -119,7 +119,7 @@ int main(int argc, char** argv) {
   left_legend.Draw("SAME");
   ATLASLabel(0.2, 0.88, "Pixel Internal");
   SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
-  SupportLabel(0.2, 0.76, "LHC fill " + fill_number);
+  SupportLabel(0.2, 0.76, "Fill " + fill_number);
   canvas.SaveAs("output/avg_bitstr_occ_vs_mu.eps");
   canvas.SaveAs("output/avg_bitstr_occ_vs_mu.pdf");
   canvas.SaveAs("output/avg_bitstr_occ_vs_mu.png");
@@ -136,7 +136,7 @@ int main(int argc, char** argv) {
   legend.Draw("SAME");
   ATLASLabel(0.2, 0.88, "Pixel Internal");
   SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
-  SupportLabel(0.2, 0.76, "LHC fill " + fill_number);
+  SupportLabel(0.2, 0.76, "Fill " + fill_number);
   canvas.SaveAs("output/avg_bitstr_occ_vs_lumi.eps");
   canvas.SaveAs("output/avg_bitstr_occ_vs_lumi.pdf");
   canvas.SaveAs("output/avg_bitstr_occ_vs_lumi.png");
