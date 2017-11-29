@@ -124,7 +124,7 @@ int main(int argc, char** argv) {
   canvas.SaveAs("output/avg_bitstr_occ_vs_mu.pdf");
   canvas.SaveAs("output/avg_bitstr_occ_vs_mu.png");
   left_legend.Clear();
-  pileup_stack->printTable();
+  std::cout << pileup_stack->printTable() << std::endl;
 
   stack.reset(new HistStack{file, path, hist_titles, 1200});
   stack->setXAxisTitle("Lumi block");

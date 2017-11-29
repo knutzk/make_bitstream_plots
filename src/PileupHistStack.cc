@@ -6,6 +6,7 @@
 
 #include <iomanip>
 #include <iostream>
+#include <sstream>
 
 PileupHistStack::PileupHistStack(TFile* file,
                                  const std::string& path,
@@ -40,26 +41,28 @@ PileupHistStack::PileupHistStack(TFile* file,
   this->init();
 }
 
-void PileupHistStack::printTable() {
+std::string PileupHistStack::printTable() {
   // This prints the heads of the columns.
-  std::cout << "pile-up\t";
+  std::ostringstream print;
+  print << "pile-up\t";
   for (const auto& title : titles_short_) {
-    std::cout << title << "\t\t";
+    print << title << "\t\t";
   }
-  std::cout << std::endl;
+  print << std::endl;
 
   // Retrieve values from histograms with range [25, 80].
   for (unsigned int pileup = 25; pileup <= 80; pileup += 5) {
-    std::cout << pileup << "\t";
+    print << pileup << "\t";
     for (const auto& hist : histograms_) {
       auto bin = hist->GetXaxis()->FindBin(pileup);
       if (hist->GetBinContent(bin) == 0) break;
-      std::cout << std::fixed << std::setprecision(1);
-      std::cout << 100 * hist->GetBinContent(bin);
-      std::cout << " +/- " << 100 * hist->GetBinError(bin) + 0.04999;
-      std::cout << "\t";
+      print << std::fixed << std::setprecision(1);
+      print << 100 * hist->GetBinContent(bin);
+      print << " +/- " << 100 * hist->GetBinError(bin) + 0.04999;
+      print << "\t";
     }
-    std::cout << std::endl;
+    print << std::endl;
   }
+  return print.str();
 }
 

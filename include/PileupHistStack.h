@@ -12,7 +12,7 @@ class PileupHistStack : public HistStack {
  public:
   PileupHistStack(TFile* file, const std::string& path, const std::vector<std::string>& titles);
 
-  void printTable();
+  std::string printTable();
 };
 
 #endif  // HISTSTACK_H_
