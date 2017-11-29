@@ -11,6 +11,7 @@
 #include "TLegend.h"
 #include "TCanvas.h"
 
+#include <fstream>
 #include <iostream>
 #include <memory>
 
@@ -124,7 +125,10 @@ int main(int argc, char** argv) {
   canvas.SaveAs("output/avg_bitstr_occ_vs_mu.pdf");
   canvas.SaveAs("output/avg_bitstr_occ_vs_mu.png");
   left_legend.Clear();
-  std::cout << pileup_stack->printTable() << std::endl;
+
+  std::ofstream output{"output/table.txt"};
+  output << pileup_stack->printTable();
+  output.close();
 
   stack.reset(new HistStack{file, path, hist_titles, 1200});
   stack->setXAxisTitle("Lumi block");
