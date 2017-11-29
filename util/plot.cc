@@ -72,6 +72,8 @@ int main(int argc, char** argv) {
   SupportLabel(0.24, 0.82, "Assumed L1 rate: 100 kHz");
   SupportLabel(0.24, 0.76, "LHC fill " + fill_number);
   canvas.SaveAs("output/avg_bitstr_occ_errors_vs_mu.eps");
+  canvas.SaveAs("output/avg_bitstr_occ_errors_vs_mu.pdf");
+  canvas.SaveAs("output/avg_bitstr_occ_errors_vs_mu.png");
   legend.Clear();
 
   auto stack = std::make_unique<HistStack>(HistStack{file, path, hist_titles, 1200});
@@ -85,6 +87,8 @@ int main(int argc, char** argv) {
   SupportLabel(0.24, 0.82, "Assumed L1 rate: 100 kHz");
   SupportLabel(0.24, 0.76, "LHC fill " + fill_number);
   canvas.SaveAs("output/avg_bitstr_occ_errors_vs_lumi.eps");
+  canvas.SaveAs("output/avg_bitstr_occ_errors_vs_lumi.pdf");
+  canvas.SaveAs("output/avg_bitstr_occ_errors_vs_lumi.png");
   left_legend.Clear();
 
   // =======================================================
@@ -117,6 +121,8 @@ int main(int argc, char** argv) {
   SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
   SupportLabel(0.2, 0.76, "LHC fill " + fill_number);
   canvas.SaveAs("output/avg_bitstr_occ_vs_mu.eps");
+  canvas.SaveAs("output/avg_bitstr_occ_vs_mu.pdf");
+  canvas.SaveAs("output/avg_bitstr_occ_vs_mu.png");
   left_legend.Clear();
   pileup_stack->printTable();
 
@@ -132,6 +138,8 @@ int main(int argc, char** argv) {
   SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
   SupportLabel(0.2, 0.76, "LHC fill " + fill_number);
   canvas.SaveAs("output/avg_bitstr_occ_vs_lumi.eps");
+  canvas.SaveAs("output/avg_bitstr_occ_vs_lumi.pdf");
+  canvas.SaveAs("output/avg_bitstr_occ_vs_lumi.png");
   legend.Clear();
 
   // =======================================================
@@ -156,6 +164,8 @@ int main(int argc, char** argv) {
 
   hist->Draw("HIST BAR1 SAME");
   canvas.SaveAs("output/errorwords_stat.eps");
+  canvas.SaveAs("output/errorwords_stat.pdf");
+  canvas.SaveAs("output/errorwords_stat.png");
 
   // Design adjustments for the 2D module maps
   canvas.SetRightMargin(0.10);
@@ -165,11 +175,15 @@ int main(int argc, char** argv) {
   hist->GetZaxis()->SetRangeUser(0, 5);
   hist->Draw();
   canvas.SaveAs("output/errorwords_merged.eps");
+  canvas.SaveAs("output/errorwords_merged.pdf");
+  canvas.SaveAs("output/errorwords_merged.png");
 
   hist = static_cast<TH1D*>(file->Get((path + "Errors/femcc_errorwords_B0").c_str()));
   hist->GetZaxis()->SetRangeUser(0, 5);
   hist->Draw();
   canvas.SaveAs("output/errorwords.eps");
+  canvas.SaveAs("output/errorwords.pdf");
+  canvas.SaveAs("output/errorwords.png");
 
   return 0;
 }
