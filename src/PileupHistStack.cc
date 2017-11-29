@@ -44,22 +44,21 @@ PileupHistStack::PileupHistStack(TFile* file,
 std::string PileupHistStack::printTable() {
   // This prints the heads of the columns.
   std::ostringstream print;
-  print << "pile-up\t";
+  print << "pile-up";
   for (const auto& title : titles_short_) {
-    print << title << "\t\t";
+    print << "\t" << title;
   }
   print << std::endl;
 
-  // Retrieve values from histograms with range [25, 80].
-  for (unsigned int pileup = 25; pileup <= 80; pileup += 5) {
-    print << pileup << "\t";
+  // Retrieve values from histograms with range [25, 75].
+  for (unsigned int pileup = 25; pileup <= 75; pileup += 5) {
+    print << pileup;
     for (const auto& hist : histograms_) {
       auto bin = hist->GetXaxis()->FindBin(pileup);
       if (hist->GetBinContent(bin) == 0) break;
       print << std::fixed << std::setprecision(1);
-      print << 100 * hist->GetBinContent(bin);
-      print << " +/- " << 100 * hist->GetBinError(bin) + 0.04999;
-      print << "\t";
+      print << "\t" << 100 * hist->GetBinContent(bin);
+      print << " ± " << 100 * hist->GetBinError(bin) + 0.04999;
     }
     print << std::endl;
   }
