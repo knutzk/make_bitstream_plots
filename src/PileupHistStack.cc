@@ -23,7 +23,7 @@ PileupHistStack::PileupHistStack(TFile* file,
     // Create a profile that we fill with pileup/bandwidth usage pairs
     auto name = std::string("neu_") + hist->GetName();
     auto title_inc_axes = hist->GetTitle() + std::string(";pile-up;bitstream occ./module");
-    auto pileup_hist = std::make_unique<TProfile>(TProfile{name.c_str(), title_inc_axes.c_str(), 16, 2.5, 82.5});
+    auto pileup_hist = std::make_unique<TProfile>(TProfile{name.c_str(), title_inc_axes.c_str(), 16, 2.5, 82.5, "s"});
     pileup_hist->Approximate(kTRUE);
 
     for (unsigned int i = 1; i < pileup->GetNbinsX() + 1; ++i) {
