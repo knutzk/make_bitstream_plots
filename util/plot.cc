@@ -39,10 +39,10 @@ int main(int argc, char** argv) {
 
   // Canvases and legends
   TCanvas canvas{"canvas", "canvas", 600, 600};
-  TLegend legend{0.8, 0.6, 0.9, 0.9};
+  TLegend legend{0.78, 0.6, 0.93, 0.9};
   legend.SetTextFont(42);
   legend.SetTextSize(0.05);
-  TLegend left_legend{0.24, 0.42, 0.34, 0.72};
+  TLegend left_legend{0.24, 0.42, 0.39, 0.72};
   left_legend.SetTextFont(42);
   left_legend.SetTextSize(0.05);
 
@@ -99,7 +99,7 @@ int main(int argc, char** argv) {
 
   // Reverting back to standard ATLAS style.
   left_legend.SetX1NDC(0.20);
-  left_legend.SetX2NDC(0.30);
+  left_legend.SetX2NDC(0.35);
   canvas.SetLeftMargin(0.16);
   gStyle->SetTitleYOffset(1.4);
 
