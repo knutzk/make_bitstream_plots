@@ -34,6 +34,11 @@ PileupHistStack::PileupHistStack(TFile* file,
 
     // Aaand convert it into a TH1D
     std::unique_ptr<TH1D> pileup_hist_casted{dynamic_cast<TProfile*>(pileup_hist->Clone())->ProjectionX()};
+
+    for (unsigned int i = 1; i < pileup_hist_casted->GetNbinsX() + 1; ++i) {
+      auto error = pileup_hist_casted->GetBinError(i);
+      pileup_hist_casted->SetBinError(i, error * 3);
+    }
     pileup_hist_casted->SetName(pileup_hist->GetName());
     histograms_.emplace_back(std::move(pileup_hist_casted));
   }
