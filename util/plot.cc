@@ -17,6 +17,8 @@
 
 void SupportLabel(double xpos, double ypos, const std::string& text);
 
+const bool kBitstreamOnly{true};
+
 int main(int argc, char** argv) {
   SetAtlasStyle();
 
@@ -145,6 +147,8 @@ int main(int argc, char** argv) {
   canvas.SaveAs("output/avg_bitstr_occ_vs_lumi.pdf");
   canvas.SaveAs("output/avg_bitstr_occ_vs_lumi.png");
   legend.Clear();
+
+  if (kBitstreamOnly) return 0;
 
   // =======================================================
   // =======================================================
