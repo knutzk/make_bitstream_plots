@@ -37,7 +37,11 @@ int main(int argc, char** argv) {
   }
 
   std::string fill_number = "???";
-  if (std::string(argv[2]).find("339849") != std::string::npos) fill_number = "6358";
+  if (std::string(argv[1]).find("339849") != std::string::npos) fill_number = "6358";
+
+  std::string stream = "???";
+  if (std::string(argv[1]).find("express") != std::string::npos) stream = "express_express";
+  if (std::string(argv[1]).find("zerobias") != std::string::npos) stream = "physics_ZeroBias";
 
   // Canvases and legends
   TCanvas canvas{"canvas", "canvas", 600, 600};
@@ -73,7 +77,7 @@ int main(int argc, char** argv) {
   legend.Draw("SAME");
   ATLASLabel(0.24, 0.88, "Pixel Internal");
   SupportLabel(0.24, 0.82, "Assumed L1 rate: 100 kHz");
-  SupportLabel(0.24, 0.76, "Fill " + fill_number);
+  SupportLabel(0.24, 0.76, "Fill " + fill_number + ", " + stream);
   canvas.SaveAs("output/avg_bitstr_occ_errors_vs_mu.eps");
   canvas.SaveAs("output/avg_bitstr_occ_errors_vs_mu.pdf");
   canvas.SaveAs("output/avg_bitstr_occ_errors_vs_mu.png");
@@ -88,7 +92,7 @@ int main(int argc, char** argv) {
   left_legend.Draw("SAME");
   ATLASLabel(0.24, 0.88, "Pixel Internal");
   SupportLabel(0.24, 0.82, "Assumed L1 rate: 100 kHz");
-  SupportLabel(0.24, 0.76, "Fill " + fill_number);
+  SupportLabel(0.24, 0.76, "Fill " + fill_number + ", " + stream);
   canvas.SaveAs("output/avg_bitstr_occ_errors_vs_lumi.eps");
   canvas.SaveAs("output/avg_bitstr_occ_errors_vs_lumi.pdf");
   canvas.SaveAs("output/avg_bitstr_occ_errors_vs_lumi.png");
@@ -122,7 +126,7 @@ int main(int argc, char** argv) {
   left_legend.Draw("SAME");
   ATLASLabel(0.2, 0.88, "Pixel Internal");
   SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
-  SupportLabel(0.2, 0.76, "Fill " + fill_number);
+  SupportLabel(0.2, 0.76, "Fill " + fill_number + ", " + stream);
   canvas.SaveAs("output/avg_bitstr_occ_vs_mu.eps");
   canvas.SaveAs("output/avg_bitstr_occ_vs_mu.pdf");
   canvas.SaveAs("output/avg_bitstr_occ_vs_mu.png");
@@ -142,7 +146,7 @@ int main(int argc, char** argv) {
   legend.Draw("SAME");
   ATLASLabel(0.2, 0.88, "Pixel Internal");
   SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
-  SupportLabel(0.2, 0.76, "Fill " + fill_number);
+  SupportLabel(0.2, 0.76, "Fill " + fill_number + ", " + stream);
   canvas.SaveAs("output/avg_bitstr_occ_vs_lumi.eps");
   canvas.SaveAs("output/avg_bitstr_occ_vs_lumi.pdf");
   canvas.SaveAs("output/avg_bitstr_occ_vs_lumi.png");
