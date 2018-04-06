@@ -69,7 +69,7 @@ int main(int argc, char** argv) {
   pileup_stack->createLegend(&legend);
   pileup_stack->draw(&canvas);
   legend.Draw("SAME");
-  ATLASLabel(0.24, 0.88, "Pixel Internal");
+  ATLASLabel(0.24, 0.88, "Preliminary");
   SupportLabel(0.24, 0.82, "Assumed L1 rate: 100 kHz");
   SupportLabel(0.24, 0.76, "Fill " + fill_number);
   canvas.SaveAs("output/avg_bitstr_occ_errors_vs_mu.eps");
@@ -84,7 +84,7 @@ int main(int argc, char** argv) {
   stack->createLegend(&left_legend);
   stack->draw(&canvas);
   left_legend.Draw("SAME");
-  ATLASLabel(0.24, 0.88, "Pixel Internal");
+  ATLASLabel(0.24, 0.88, "Preliminary");
   SupportLabel(0.24, 0.82, "Assumed L1 rate: 100 kHz");
   SupportLabel(0.24, 0.76, "Fill " + fill_number);
   canvas.SaveAs("output/avg_bitstr_occ_errors_vs_lumi.eps");
