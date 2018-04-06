@@ -7,6 +7,8 @@
 #include "TLegend.h"
 #include "TProfile.h"
 
+#include <regex>
+
 HistStack::HistStack(TFile* file, const std::string& path, const std::vector<std::string>& titles, double x_max)
   : titles_(titles) {
   for (const auto& title : titles_) {
@@ -24,8 +26,8 @@ void HistStack::createLegend(TLegend* legend) {
   };
 
   auto substitute_B_with_L = [](std::string* s) {
-    auto pos = s->find("B");
-    if (pos != std::string::npos) s->replace(pos, 1, std::string("L"));
+    *s = std::regex_replace(*s, std::regex("B([012])"), "Layer $1");
+    if (*s == "Layer 0") *s = "B-Layer";
   };
 
   for (const auto& hist : histograms_) {
