@@ -42,6 +42,7 @@ int main(int argc, char** argv) {
   std::string stream = "???";
   if (std::string(argv[1]).find("express") != std::string::npos) stream = "express_express";
   if (std::string(argv[1]).find("zerobias") != std::string::npos) stream = "physics_ZeroBias";
+  if (std::string(argv[1]).find("enhanced") != std::string::npos) stream = "physics_EnhancedBias";
 
   // Canvases and legends
   TCanvas canvas{"canvas", "canvas", 600, 600};
