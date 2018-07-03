@@ -58,7 +58,9 @@ std::vector<std::unique_ptr<TH1D>> ModuleSpread::getHistograms(const std::string
   int module_counter{0};
 
   for (const auto& m : modules_) {
-    if (m.find(filter) == std::string::npos) continue;
+    std::smatch match;
+    std::regex_search(m, match, std::regex(filter));
+    if (match.empty()) continue;
     module_counter++;
     std::unique_ptr<TH1D> hist{static_cast<TH1D*>(openCleanProfile(file_, m))};
     if (!hist) throw std::invalid_argument("Histogram not found");
