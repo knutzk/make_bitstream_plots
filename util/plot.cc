@@ -182,6 +182,7 @@ int main(int argc, char** argv) {
   canvas.SaveAs("spread_l0.png");
   left_legend.Clear();
 
+  // =======================================================
   spreads = spread.getHistograms("L1");
   spreads.at(0)->GetYaxis()->SetRangeUser(0, spreads.at(0)->GetMaximum() * 2.0);
   spreads.at(0)->GetXaxis()->SetRangeUser(0.1, 0.7);
@@ -202,6 +203,7 @@ int main(int argc, char** argv) {
   canvas.SaveAs("spread_l1.png");
   left_legend.Clear();
 
+  // =======================================================
   spreads = spread.getHistograms("L2");
   spreads.at(0)->GetYaxis()->SetRangeUser(0, spreads.at(0)->GetMaximum() * 1.8);
   spreads.at(0)->GetXaxis()->SetRangeUser(0.3, 0.9);
@@ -220,6 +222,54 @@ int main(int argc, char** argv) {
   left_legend.AddEntry(spreads.at(1).get(), "<#mu> = 70", "L");
   left_legend.Draw("SAME");
   canvas.SaveAs("spread_l2.png");
+  left_legend.Clear();
+
+  // =======================================================
+  spreads = spread.getHistograms("EC[A|C]");
+  spreads.at(0)->GetYaxis()->SetRangeUser(0, spreads.at(0)->GetMaximum() * 1.8);
+  spreads.at(0)->GetXaxis()->SetRangeUser(0.4, 1.0);
+  for (const auto& hist : spreads) {
+    if (hist == spreads.at(0)) {
+      hist->Draw("HIST");
+    } else {
+      hist->Draw("HIST SAME");
+    }
+  }
+  ATLASLabel(0.2, 0.88, "Pixel Internal");
+  SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
+  SupportLabel(0.2, 0.76, "Fill " + fill_number + ", " + stream);
+  SupportLabel(0.2, 0.70, "Disks");
+  left_legend.AddEntry(spreads.at(0).get(), "<#mu> = 75", "L");
+  left_legend.AddEntry(spreads.at(1).get(), "<#mu> = 70", "L");
+  left_legend.Draw("SAME");
+  canvas.SaveAs("spread_disks.png");
+  left_legend.Clear();
+
+  // =======================================================
+  spreads = spread.getHistograms("LI_S[0-9]{2}_M[0-9]_[A|C][0-9]_[A-Z]");
+  auto ibl_3d_hists = spread.getHistograms("LI_S[0-9]{2}_M[0-9]_[A|C][0-9]_[1|2]_");
+  for (auto& hist : ibl_3d_hists) {
+    hist->SetLineStyle(2);
+    spreads.emplace_back(std::move(hist));
+  }
+
+  spreads.at(0)->GetYaxis()->SetRangeUser(0, spreads.at(0)->GetMaximum() * 1.8);
+  spreads.at(0)->GetXaxis()->SetRangeUser(0.3, 0.9);
+  for (const auto& hist : spreads) {
+    if (hist == spreads.at(0)) {
+      hist->Draw("HIST");
+    } else {
+      hist->Draw("HIST SAME");
+    }
+  }
+  ATLASLabel(0.2, 0.88, "Pixel Internal");
+  SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
+  SupportLabel(0.2, 0.76, "Fill " + fill_number + ", " + stream);
+  SupportLabel(0.2, 0.70, "IBL planar (dotted: 3D)");
+  left_legend.AddEntry(spreads.at(0).get(), "<#mu> = 75", "L");
+  left_legend.AddEntry(spreads.at(1).get(), "<#mu> = 70", "L");
+  left_legend.Draw("SAME");
+  canvas.SaveAs("spread_ibl.png");
   left_legend.Clear();
 
   if (kBitstreamOnly) return 0;
