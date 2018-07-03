@@ -50,7 +50,7 @@ std::vector<std::unique_ptr<TH1D>> ModuleSpread::getHistograms(const std::string
   if (!pileup) throw std::invalid_argument("Histogram not found");
 
   std::vector<std::unique_ptr<TH1D>> histograms;
-  histograms.emplace_back(std::make_unique<TH1D>(std::string("pu75_" + filter).c_str(), "pu75;bitstream occ./module;# modules", 50, 0.0, 1.0));
+  histograms.emplace_back(std::make_unique<TH1D>(std::string("pu75_" + filter).c_str(), "pu75;Bandwidth usage/module;# modules", 50, 0.0, 1.0));
   histograms.emplace_back(std::make_unique<TH1D>(std::string("pu70_" + filter).c_str(), "pu70", 50, 0.0, 1.0));
 
   int spread_counter{0};
@@ -90,7 +90,7 @@ std::vector<std::unique_ptr<TH1D>> ModuleSpread::getEtaSlices(float pu_des) {
   if (!pileup) throw std::invalid_argument("Histogram not found");
 
   std::vector<std::unique_ptr<TH1D>> histograms;
-  histograms.emplace_back(std::make_unique<TH1D>("m0", "m0;bitstream occ./module;# modules", 12, 0.4, 1.0));
+  histograms.emplace_back(std::make_unique<TH1D>("m0", "m0;Bandwidth usage/module;# modules", 12, 0.4, 1.0));
   histograms.emplace_back(std::make_unique<TH1D>("m1", "m1", 12, 0.4, 1.0));
   histograms.emplace_back(std::make_unique<TH1D>("m2", "m2", 12, 0.4, 1.0));
   histograms.emplace_back(std::make_unique<TH1D>("m3", "m3", 12, 0.4, 1.0));
