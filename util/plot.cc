@@ -179,7 +179,9 @@ int main(int argc, char** argv) {
   left_legend.AddEntry(spreads.at(0).get(), "<#mu> = 75", "L");
   left_legend.AddEntry(spreads.at(1).get(), "<#mu> = 70", "L");
   left_legend.Draw("SAME");
-  canvas.SaveAs("spread_l0.png");
+  canvas.SaveAs("output/spread_l0.eps");
+  canvas.SaveAs("output/spread_l0.pdf");
+  canvas.SaveAs("output/spread_l0.png");
   left_legend.Clear();
 
   // =======================================================
@@ -200,7 +202,9 @@ int main(int argc, char** argv) {
   left_legend.AddEntry(spreads.at(0).get(), "<#mu> = 75", "L");
   left_legend.AddEntry(spreads.at(1).get(), "<#mu> = 70", "L");
   left_legend.Draw("SAME");
-  canvas.SaveAs("spread_l1.png");
+  canvas.SaveAs("output/spread_l1.eps");
+  canvas.SaveAs("output/spread_l1.pdf");
+  canvas.SaveAs("output/spread_l1.png");
   left_legend.Clear();
 
   // =======================================================
@@ -221,7 +225,9 @@ int main(int argc, char** argv) {
   left_legend.AddEntry(spreads.at(0).get(), "<#mu> = 75", "L");
   left_legend.AddEntry(spreads.at(1).get(), "<#mu> = 70", "L");
   left_legend.Draw("SAME");
-  canvas.SaveAs("spread_l2.png");
+  canvas.SaveAs("output/spread_l2.eps");
+  canvas.SaveAs("output/spread_l2.pdf");
+  canvas.SaveAs("output/spread_l2.png");
   left_legend.Clear();
 
   // =======================================================
@@ -242,7 +248,9 @@ int main(int argc, char** argv) {
   left_legend.AddEntry(spreads.at(0).get(), "<#mu> = 75", "L");
   left_legend.AddEntry(spreads.at(1).get(), "<#mu> = 70", "L");
   left_legend.Draw("SAME");
-  canvas.SaveAs("spread_disks.png");
+  canvas.SaveAs("output/spread_disks.eps");
+  canvas.SaveAs("output/spread_disks.pdf");
+  canvas.SaveAs("output/spread_disks.png");
   left_legend.Clear();
 
   // =======================================================
@@ -269,7 +277,9 @@ int main(int argc, char** argv) {
   left_legend.AddEntry(spreads.at(0).get(), "<#mu> = 75", "L");
   left_legend.AddEntry(spreads.at(1).get(), "<#mu> = 70", "L");
   left_legend.Draw("SAME");
-  canvas.SaveAs("spread_ibl.png");
+  canvas.SaveAs("output/spread_ibl.eps");
+  canvas.SaveAs("output/spread_ibl.pdf");
+  canvas.SaveAs("output/spread_ibl.png");
   left_legend.Clear();
 
   if (kBitstreamOnly) return 0;
