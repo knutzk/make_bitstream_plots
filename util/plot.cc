@@ -1,6 +1,7 @@
 #include "HistStack.h"
 #include "PileupHistStack.h"
 #include "HistCleaner.h"
+#include "ModuleSpread.h"
 #include "AtlasStyle.h"
 #include "AtlasLabels.h"
 
@@ -152,6 +153,74 @@ int main(int argc, char** argv) {
   canvas.SaveAs("output/avg_bitstr_occ_vs_lumi.pdf");
   canvas.SaveAs("output/avg_bitstr_occ_vs_lumi.png");
   legend.Clear();
+
+  // =======================================================
+  // =======================================================
+  // Plots for: error words (on L0)
+  // =======================================================
+
+  left_legend.SetY2NDC(0.60);
+
+  ModuleSpread spread{file, path};
+  auto spreads = spread.getHistograms("L0");
+  spreads.at(0)->GetYaxis()->SetRangeUser(0, spreads.at(0)->GetMaximum() * 1.8);
+  spreads.at(0)->GetXaxis()->SetRangeUser(0.4, 1.0);
+  for (const auto& hist : spreads) {
+    if (hist == spreads.at(0)) {
+      hist->Draw("HIST");
+    } else {
+      hist->Draw("HIST SAME");
+    }
+  }
+  ATLASLabel(0.2, 0.88, "Pixel Internal");
+  SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
+  SupportLabel(0.2, 0.76, "Fill " + fill_number + ", " + stream);
+  SupportLabel(0.2, 0.70, "B-layer");
+  left_legend.AddEntry(spreads.at(0).get(), "<#mu> = 75", "L");
+  left_legend.AddEntry(spreads.at(1).get(), "<#mu> = 70", "L");
+  left_legend.Draw("SAME");
+  canvas.SaveAs("spread_l0.png");
+  left_legend.Clear();
+
+  spreads = spread.getHistograms("L1");
+  spreads.at(0)->GetYaxis()->SetRangeUser(0, spreads.at(0)->GetMaximum() * 2.0);
+  spreads.at(0)->GetXaxis()->SetRangeUser(0.1, 0.7);
+  for (const auto& hist : spreads) {
+    if (hist == spreads.at(0)) {
+      hist->Draw("HIST");
+    } else {
+      hist->Draw("HIST SAME");
+    }
+  }
+  ATLASLabel(0.2, 0.88, "Pixel Internal");
+  SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
+  SupportLabel(0.2, 0.76, "Fill " + fill_number + ", " + stream);
+  SupportLabel(0.2, 0.70, "Layer 1");
+  left_legend.AddEntry(spreads.at(0).get(), "<#mu> = 75", "L");
+  left_legend.AddEntry(spreads.at(1).get(), "<#mu> = 70", "L");
+  left_legend.Draw("SAME");
+  canvas.SaveAs("spread_l1.png");
+  left_legend.Clear();
+
+  spreads = spread.getHistograms("L2");
+  spreads.at(0)->GetYaxis()->SetRangeUser(0, spreads.at(0)->GetMaximum() * 1.8);
+  spreads.at(0)->GetXaxis()->SetRangeUser(0.3, 0.9);
+  for (const auto& hist : spreads) {
+    if (hist == spreads.at(0)) {
+      hist->Draw("HIST");
+    } else {
+      hist->Draw("HIST SAME");
+    }
+  }
+  ATLASLabel(0.2, 0.88, "Pixel Internal");
+  SupportLabel(0.2, 0.82, "Assumed L1 rate: 100 kHz");
+  SupportLabel(0.2, 0.76, "Fill " + fill_number + ", " + stream);
+  SupportLabel(0.2, 0.70, "Layer 2");
+  left_legend.AddEntry(spreads.at(0).get(), "<#mu> = 75", "L");
+  left_legend.AddEntry(spreads.at(1).get(), "<#mu> = 70", "L");
+  left_legend.Draw("SAME");
+  canvas.SaveAs("spread_l2.png");
+  left_legend.Clear();
 
   if (kBitstreamOnly) return 0;
 
