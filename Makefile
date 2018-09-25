@@ -26,5 +26,5 @@ $(TARGET): $(OBJ)
 
 clean:
 	@echo "   Cleaning...";
-	@echo "   find $(DIR) -type f -name "*.o" -exec rm -f {} \;"; find $(DIR) -type f -name "*.o" -exec rm -f {} \;
+	@echo "   rm -f $(OBJ)"
 	@echo "   rm -f $(TARGET)"; rm -f $(TARGET)
