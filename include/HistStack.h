@@ -6,15 +6,12 @@
 #include <vector>
 
 class TCanvas;
-class TFile;
 class TH1D;
 class TLegend;
 
 class HistStack {
  public:
-  inline HistStack(const std::vector<std::string>& titles) : titles_(titles) {};
-
-  HistStack(TFile* file, const std::string& path, const std::vector<std::string>& titles, double x_max = 0);
+  HistStack(std::vector<std::unique_ptr<TH1D> >& histos, double x_max = 0);
 
   void createLegend(TLegend* legend);
 
@@ -23,6 +20,8 @@ class HistStack {
   double getMax();
 
   void init(double x_max = 0);
+
+  std::string printTable();
 
   void setComfortableMax(double max);
 

@@ -1,5 +1,4 @@
 #include "HistStack.h"
-#include "HistCleaner.h"
 
 #include "TCanvas.h"
 #include "TFile.h"
@@ -8,30 +7,21 @@
 #include "TProfile.h"
 
 #include <regex>
+#include <iostream>
+#include <iomanip>
 
-HistStack::HistStack(TFile* file, const std::string& path, const std::vector<std::string>& titles, double x_max)
-  : titles_(titles) {
-  for (const auto& title : titles_) {
-    std::unique_ptr<TH1D> hist{static_cast<TH1D*>(openCleanProfile(file, path + title)->Clone())};
-    histograms_.emplace_back(std::move(hist));
+HistStack::HistStack(std::vector<std::unique_ptr<TH1D> >& histos, double x_max) {
+  for (auto& hist : histos) {
+    auto ptr = hist.release();
+    histograms_.emplace_back(ptr);
   }
 
   this->init(x_max);
 }
 
 void HistStack::createLegend(TLegend* legend) {
-  auto get_suffix = [](const std::string& s) {
-    auto pos = s.rfind("_");
-    return s.substr(pos + 1, s.length() - pos);
-  };
-
-  auto substitute_B_with_L = [](std::string* s) {
-    *s = std::regex_replace(*s, std::regex("B([012])"), "L$1");
-  };
-
   for (const auto& hist : histograms_) {
-    auto name = get_suffix(std::string(hist->GetName()));
-    substitute_B_with_L(&name);
+    auto name = std::string(hist->GetName());
     titles_short_.push_back(name);
     legend->AddEntry(hist.get(), name.c_str());
   }
@@ -75,6 +65,30 @@ void HistStack::init(double x_max) {
     hist->SetLineColor(color_index);
     hist->SetMarkerStyle(19 + marker_index);
   }
+}
+
+std::string HistStack::printTable() {
+  // This prints the heads of the columns.
+  std::ostringstream print;
+  print << "pile-up";
+  for (const auto& title : titles_short_) {
+    print << "\t" << title;
+  }
+  print << std::endl;
+
+  // Retrieve values from histograms with range [25, 75].
+  for (int i = 1; i <= histograms_.at(0)->GetNbinsX(); ++i) {
+    auto pileup = histograms_.at(0)->GetBinCenter(i);
+    print << pileup;
+    for (const auto& hist : histograms_) {
+      if (hist->GetBinContent(i) == 0) break;
+      print << std::fixed << std::setprecision(1);
+      print << "\t" << 100 * hist->GetBinContent(i);
+      print << " ± " << 100 * hist->GetBinError(i) + 0.04999;
+    }
+      print << std::endl;
+  }
+  return print.str();
 }
 
 void HistStack::setComfortableMax(double max) {
