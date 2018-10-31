@@ -70,6 +70,8 @@ int main(int argc, char** argv) {
   hist_titles.push_back("Errors/Bitstr_Occ_Errors_LB_B2");
   hist_titles.push_back("Errors/Bitstr_Occ_Errors_LB_ECA");
   hist_titles.push_back("Errors/Bitstr_Occ_Errors_LB_ECC");
+  hist_titles.push_back("Errors/Bitstr_Occ_Errors_LB_IBL2D");
+  hist_titles.push_back("Errors/Bitstr_Occ_Errors_LB_IBL3D");
 
   auto pileup_stack = std::make_unique<PileupHistStack>(PileupHistStack{file, path, hist_titles});
   pileup_stack->setXAxisTitle("Average #mu per lumi block");
@@ -118,6 +120,8 @@ int main(int argc, char** argv) {
   hist_titles.push_back("Errors/Bitstr_Occ_Tot_LB_B2");
   hist_titles.push_back("Errors/Bitstr_Occ_Tot_LB_ECA");
   hist_titles.push_back("Errors/Bitstr_Occ_Tot_LB_ECC");
+  hist_titles.push_back("Errors/Bitstr_Occ_Tot_LB_IBL2D");
+  hist_titles.push_back("Errors/Bitstr_Occ_Tot_LB_IBL3D");
 
   pileup_stack.reset(new PileupHistStack{file, path, hist_titles});
   pileup_stack->setXAxisTitle("Average #mu per lumi block");
