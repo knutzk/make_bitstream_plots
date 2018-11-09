@@ -104,6 +104,28 @@ int main(int argc, char** argv) {
     return projection;
   };
 
+  auto make_module_spread = [&] (const std::string& wildcard, float pile_up_val) {
+    DirectoryParser parser{file, path, wildcard};
+    auto spread = std::make_unique<TH1D>("spread", "spread", 100, 0., 1.);
+    for (const auto& module : parser.modules) {
+      PileUpHistogram hist{file, path, module};
+      hist.vetoLumiBlocks(vetoed_lbs);
+      hist.setPileUpRange(pile_up_min, pile_up_max);
+      hist.fillHisto();
+      auto val = hist.getHisto()->GetBinContent(hist.getHisto()->FindBin(pile_up_val));
+      if (val == 0) continue;
+      spread->Fill(val);
+    }
+    spread->Scale(1./spread->Integral());
+    return spread;
+  };
+
+  // std::vector<std::unique_ptr<TH1D> > spreads;
+  // spreads.emplace_back(make_module_spread("^L0", 55));
+  // HistStack spread_stack{spreads};
+  // spread_stack.draw(&canvas);
+  // canvas.SaveAs("output/test.png");
+
   // Plots for: total bit-stream usage
   // -------------------------------------------------------
   std::vector<std::unique_ptr<TH1D> > reduced_hists;
