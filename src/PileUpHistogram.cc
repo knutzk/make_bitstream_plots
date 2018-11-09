@@ -30,7 +30,7 @@ void PileUpHistogram::fillHisto() {
   std::unique_ptr<TH1D> hist{static_cast<TH1D*>(prof)};
 
   // Create a profile that we fill with pileup/bandwidth usage pairs
-  auto name = std::string("neu_") + hist->GetName();
+  auto name = std::string(std::tmpnam(nullptr)) + hist->GetName();
   auto title_inc_axes = hist->GetTitle() + std::string(";pile-up;bandwidth usage");
   auto tmp_hist = std::make_unique<TProfile>(TProfile{name.c_str(), title_inc_axes.c_str(), m_pile_up_bins, m_pile_up_min, m_pile_up_max, "s"});
   tmp_hist->Approximate(kTRUE);
