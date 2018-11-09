@@ -51,19 +51,17 @@ double HistStack::getMax() {
 }
 
 void HistStack::init(double x_max) {
-  int marker_index = 0;
-  int color_index = 0;
+  std::vector<int> colors = {1, 1, 1, 2, 2, 4, 4};
+  std::vector<int> markers = {26, 24, 25, 21, 22, 20, 23};
+  int counter{-1};
 
   for (auto& hist : histograms_) {
-    color_index++;
-    marker_index++;
-    if (color_index == 5) color_index++;
-    if (marker_index == 3) marker_index++;
+    counter++;
     if (hist->GetNbinsX() > 1000) hist->Rebin(50);
     if (x_max != 0) hist->GetXaxis()->SetRangeUser(0, x_max);
-    hist->SetMarkerColor(color_index);
-    hist->SetLineColor(color_index);
-    hist->SetMarkerStyle(19 + marker_index);
+    hist->SetMarkerColor(colors.at(counter));
+    hist->SetLineColor(colors.at(counter));
+    hist->SetMarkerStyle(markers.at(counter));
   }
 }
 
