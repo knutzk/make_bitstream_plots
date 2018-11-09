@@ -16,13 +16,24 @@ HistStack::HistStack(std::vector<std::unique_ptr<TH1D> >& histos, double x_max) 
     histograms_.emplace_back(ptr);
   }
 
-  this->init(x_max);
+  std::vector<int> colors = {1, 1, 1, 2, 2, 4, 4};
+  std::vector<int> markers = {26, 24, 25, 21, 22, 20, 23};
+  int counter{-1};
+
+  for (auto& hist : histograms_) {
+    counter++;
+    if (hist->GetNbinsX() > 1000) hist->Rebin(50);
+    if (x_max != 0) hist->GetXaxis()->SetRangeUser(0, x_max);
+    hist->SetMarkerColor(colors.at(counter));
+    hist->SetLineColor(colors.at(counter));
+    hist->SetMarkerStyle(markers.at(counter));
+  }
 }
 
 void HistStack::createLegend(TLegend* legend) {
   for (const auto& hist : histograms_) {
     auto name = std::string(hist->GetName());
-    titles_short_.push_back(name);
+    titles_.push_back(name);
     legend->AddEntry(hist.get(), name.c_str(), "P");
   }
 }
@@ -38,7 +49,7 @@ void HistStack::draw(TCanvas* canvas) {
   }
 }
 
-double HistStack::getMax() {
+double HistStack::getMax() const {
   double max{0.};
   for (const auto& hist : histograms_) {
     for (unsigned int i = 1; i < hist->GetNbinsX() + 1; ++i) {
@@ -50,26 +61,11 @@ double HistStack::getMax() {
   return max;
 }
 
-void HistStack::init(double x_max) {
-  std::vector<int> colors = {1, 1, 1, 2, 2, 4, 4};
-  std::vector<int> markers = {26, 24, 25, 21, 22, 20, 23};
-  int counter{-1};
-
-  for (auto& hist : histograms_) {
-    counter++;
-    if (hist->GetNbinsX() > 1000) hist->Rebin(50);
-    if (x_max != 0) hist->GetXaxis()->SetRangeUser(0, x_max);
-    hist->SetMarkerColor(colors.at(counter));
-    hist->SetLineColor(colors.at(counter));
-    hist->SetMarkerStyle(markers.at(counter));
-  }
-}
-
-std::string HistStack::printTable() {
+std::string HistStack::printTable() const {
   // This prints the heads of the columns.
   std::ostringstream print;
   print << "pile-up";
-  for (const auto& title : titles_short_) {
+  for (const auto& title : titles_) {
     print << "\t" << title;
   }
   print << std::endl;
