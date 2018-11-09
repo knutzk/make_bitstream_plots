@@ -58,11 +58,11 @@ int main(int argc, char** argv) {
 
   // Set up the canvases and legends
   // ---------------------------------------------------------
-  TCanvas canvas{"canvas", "canvas", 600, 600};
+  TCanvas canvas{"canvas", "canvas", 800, 600};
   TLegend legend{0.78, 0.6, 0.93, 0.9};
   legend.SetTextFont(42);
   legend.SetTextSize(0.05);
-  TLegend left_legend{0.24, 0.42, 0.39, 0.72};
+  TLegend left_legend{0.20, 0.42, 0.35, 0.72};
   left_legend.SetTextFont(42);
   left_legend.SetTextSize(0.05);
 
@@ -74,7 +74,7 @@ int main(int argc, char** argv) {
   // Here the actual setup of the plots is done.
   // -------------------------------------------------------
   const double pile_up_min = 22.5;
-  const double pile_up_max = 62.5;
+  const double pile_up_max = 57.5;
   const int n_bins_from_zero = std::floor((pile_up_max + 2.5)/5);
 
   // What we do here is the following: we look for all
@@ -121,6 +121,7 @@ int main(int argc, char** argv) {
   stack.setComfortableMax(0.7);
   stack.setXAxisTicks(210);
   stack.createLegend(&left_legend);
+  stack.shift(std::vector<float>{0, 0, -.1, -.15, .15, 0, .1});
   stack.draw(&canvas);
   left_legend.Draw("SAME");
   ATLASLabel(0.2, 0.88, "Pixel Internal");
