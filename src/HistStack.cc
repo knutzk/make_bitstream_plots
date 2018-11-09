@@ -23,7 +23,7 @@ void HistStack::createLegend(TLegend* legend) {
   for (const auto& hist : histograms_) {
     auto name = std::string(hist->GetName());
     titles_short_.push_back(name);
-    legend->AddEntry(hist.get(), name.c_str());
+    legend->AddEntry(hist.get(), name.c_str(), "P");
   }
 }
 
