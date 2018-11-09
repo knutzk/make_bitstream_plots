@@ -8,10 +8,23 @@
 class TFile;
 class TH1D;
 
+/**
+ * A class to transfer some luminosity-block histogram info into
+ * a pile-up histogram. Effectively, this class takes histograms
+ * of type "some variable" vs. LB and projects this information
+ * onto "some variable" vs. pile-up value. All LBs with the same
+ * pile-up value therefore enter the same bin and get merged.
+ */
 class PileUpHistogram {
 public:
-  /// Create a pile-up histogram from one file. The input values
-  /// are taken from the given histogram in the given path
+  /**
+   * Create a pile-up histogram from one file. The input values
+   * are taken from the given histogram in the given path.
+   * @param file The TFile object from where to read
+   * @param path The path to the luminosity-block histogram
+   * @param histo_name An additional histogram name that can be
+   *   given to the resulting pile-up histogram
+   */
   PileUpHistogram(TFile* file, const std::string& path, const std::string& histo_name);
 
   /// Perform the actual fill method for the histogram. This maps
