@@ -122,3 +122,20 @@ void HistStack::setYAxisTitle(const std::string& title) {
     hist->GetYaxis()->SetTitle(title.c_str());
   }
 }
+
+void HistStack::shift(const std::vector<float>& shift_values) {
+  if (shift_values.size() != histograms_.size()) {
+    throw std::invalid_argument("Given shift-value vector must have the same number of entries as histograms");
+  }
+
+  auto min = histograms_.at(0)->GetXaxis()->GetXmin();
+  auto max = histograms_.at(0)->GetXaxis()->GetXmax();
+  auto width = histograms_.at(0)->GetBinWidth(1);
+  int counter{-1};
+  for (auto& hist : histograms_) {
+    counter++;
+    auto shift = shift_values.at(counter) * width;
+    std::cout << "Shifting histogram " << hist->GetName() << " by " << shift << std::endl;
+    hist->GetXaxis()->SetLimits(min + shift, max + shift);
+  }
+}

@@ -31,6 +31,8 @@ class HistStack {
 
   void setYAxisTitle(const std::string& title);
 
+  void shift(const std::vector<float>& shift_values);
+
   std::vector<std::string> titles_;
   std::vector<std::string> titles_short_;
   std::vector<std::unique_ptr<TH1D>> histograms_;
