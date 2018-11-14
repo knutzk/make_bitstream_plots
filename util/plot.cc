@@ -146,7 +146,7 @@ int main(int argc, char** argv) {
   stack.setComfortableMax(0.7);
   stack.setXAxisTicks(210);
   stack.createLegend(&left_legend);
-  stack.shift(std::vector<float>{0, 0, -.1, -.15, .15, 0, .1});
+  stack.shift(std::vector<float>{+.00, +.00, -.16, -.16, +.16, -.08, +.08});
   stack.draw(&canvas);
   left_legend.Draw("SAME");
   ATLASLabel(0.2, 0.88, "Pixel Internal");
