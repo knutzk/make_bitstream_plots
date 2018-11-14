@@ -101,6 +101,9 @@ int main(int argc, char** argv) {
     auto projection = std::unique_ptr<TH1D>(prof.ProjectionX());
     projection->SetName(prof.GetName());
     projection->GetXaxis()->SetRangeUser(12.5, pile_up_max);
+    for (int i = 1; i <= projection->GetNbinsX(); ++i) {
+      projection->SetBinError(i, projection->GetBinError(i) * 3);
+    }
     return projection;
   };
 
