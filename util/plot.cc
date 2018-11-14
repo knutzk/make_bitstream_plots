@@ -136,7 +136,7 @@ int main(int argc, char** argv) {
   reduced_hists.emplace_back(make_reduced_hist("^L1", "L1"));
   reduced_hists.emplace_back(make_reduced_hist("^L2", "L2"));
   reduced_hists.emplace_back(make_reduced_hist("^ECA", "ECA"));
-  reduced_hists.emplace_back(make_reduced_hist("^ECC", "ECC"));
+  reduced_hists.emplace_back(make_reduced_hist("^ECC((?!S1_M[16]).)*$", "ECC"));
   reduced_hists.emplace_back(make_reduced_hist("^LI.*_[AC][^(7|8)]_", "IBL2D"));
   reduced_hists.emplace_back(make_reduced_hist("^LI.*_[AC][78]_", "IBL3D"));
 
