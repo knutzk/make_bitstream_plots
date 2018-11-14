@@ -1,5 +1,4 @@
 #include "HistStack.h"
-#include "HistCleaner.h"
 
 #include "TCanvas.h"
 #include "TFile.h"
@@ -8,32 +7,34 @@
 #include "TProfile.h"
 
 #include <regex>
+#include <iostream>
+#include <iomanip>
 
-HistStack::HistStack(TFile* file, const std::string& path, const std::vector<std::string>& titles, double x_max)
-  : titles_(titles) {
-  for (const auto& title : titles_) {
-    std::unique_ptr<TH1D> hist{static_cast<TH1D*>(openCleanProfile(file, path + title)->Clone())};
-    histograms_.emplace_back(std::move(hist));
+HistStack::HistStack(std::vector<std::unique_ptr<TH1D> >& histos, double x_max) {
+  for (auto& hist : histos) {
+    auto ptr = hist.release();
+    histograms_.emplace_back(ptr);
   }
 
-  this->init(x_max);
+  std::vector<int> colors = {1, 1, 1, 2, 2, 4, 4};
+  std::vector<int> markers = {26, 24, 25, 21, 22, 20, 23};
+  int counter{-1};
+
+  for (auto& hist : histograms_) {
+    counter++;
+    if (hist->GetNbinsX() > 1000) hist->Rebin(50);
+    if (x_max != 0) hist->GetXaxis()->SetRangeUser(0, x_max);
+    hist->SetMarkerColor(colors.at(counter));
+    hist->SetLineColor(colors.at(counter));
+    hist->SetMarkerStyle(markers.at(counter));
+  }
 }
 
 void HistStack::createLegend(TLegend* legend) {
-  auto get_suffix = [](const std::string& s) {
-    auto pos = s.rfind("_");
-    return s.substr(pos + 1, s.length() - pos);
-  };
-
-  auto substitute_B_with_L = [](std::string* s) {
-    *s = std::regex_replace(*s, std::regex("B([012])"), "L$1");
-  };
-
   for (const auto& hist : histograms_) {
-    auto name = get_suffix(std::string(hist->GetName()));
-    substitute_B_with_L(&name);
-    titles_short_.push_back(name);
-    legend->AddEntry(hist.get(), name.c_str());
+    auto name = std::string(hist->GetName());
+    titles_.push_back(name);
+    legend->AddEntry(hist.get(), name.c_str(), "P");
   }
 }
 
@@ -48,7 +49,7 @@ void HistStack::draw(TCanvas* canvas) {
   }
 }
 
-double HistStack::getMax() {
+double HistStack::getMax() const {
   double max{0.};
   for (const auto& hist : histograms_) {
     for (unsigned int i = 1; i < hist->GetNbinsX() + 1; ++i) {
@@ -60,21 +61,28 @@ double HistStack::getMax() {
   return max;
 }
 
-void HistStack::init(double x_max) {
-  int marker_index = 0;
-  int color_index = 0;
-
-  for (auto& hist : histograms_) {
-    color_index++;
-    marker_index++;
-    if (color_index == 5) color_index++;
-    if (marker_index == 3) marker_index++;
-    if (hist->GetNbinsX() > 1000) hist->Rebin(50);
-    if (x_max != 0) hist->GetXaxis()->SetRangeUser(0, x_max);
-    hist->SetMarkerColor(color_index);
-    hist->SetLineColor(color_index);
-    hist->SetMarkerStyle(19 + marker_index);
+std::string HistStack::printTable() const {
+  // This prints the heads of the columns.
+  std::ostringstream print;
+  print << "pile-up";
+  for (const auto& title : titles_) {
+    print << "\t" << title;
   }
+  print << std::endl;
+
+  // Retrieve values from histograms with range [25, 75].
+  for (int i = 1; i <= histograms_.at(0)->GetNbinsX(); ++i) {
+    auto pileup = histograms_.at(0)->GetBinCenter(i);
+    print << pileup;
+    for (const auto& hist : histograms_) {
+      if (hist->GetBinContent(i) == 0) break;
+      print << std::fixed << std::setprecision(1);
+      print << "\t" << 100 * hist->GetBinContent(i);
+      print << " ± " << 100 * hist->GetBinError(i) + 0.04999;
+    }
+      print << std::endl;
+  }
+  return print.str();
 }
 
 void HistStack::setComfortableMax(double max) {
@@ -106,5 +114,22 @@ void HistStack::setXAxisTicks(unsigned int ticks) {
 void HistStack::setYAxisTitle(const std::string& title) {
   for (auto& hist : histograms_) {
     hist->GetYaxis()->SetTitle(title.c_str());
+  }
+}
+
+void HistStack::shift(const std::vector<float>& shift_values) {
+  if (shift_values.size() != histograms_.size()) {
+    throw std::invalid_argument("Given shift-value vector must have the same number of entries as histograms");
+  }
+
+  auto min = histograms_.at(0)->GetXaxis()->GetXmin();
+  auto max = histograms_.at(0)->GetXaxis()->GetXmax();
+  auto width = histograms_.at(0)->GetBinWidth(1);
+  int counter{-1};
+  for (auto& hist : histograms_) {
+    counter++;
+    auto shift = shift_values.at(counter) * width;
+    std::cout << "Shifting histogram " << hist->GetName() << " by " << shift << std::endl;
+    hist->GetXaxis()->SetLimits(min + shift, max + shift);
   }
 }

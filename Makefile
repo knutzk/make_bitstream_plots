@@ -9,7 +9,7 @@ TARGET := plot.exe
 CFLAGS := -I./include `root-config --cflags`
 LIBS := `root-config --libs`
 MISCFLAGS := -fdiagnostics-color=always
-DEBUGFLAGS := -O0 -g2
+DEBUGFLAGS := -O0 -g
 
 SRC := $(shell find $(DIR) -type f -name *.cc)
 SRC += util/plot.cc
@@ -26,5 +26,5 @@ $(TARGET): $(OBJ)
 
 clean:
 	@echo "   Cleaning...";
-	@echo "   find $(DIR) -type f -name "*.o" -exec rm -f {} \;"; find $(DIR) -type f -name "*.o" -exec rm -f {} \;
+	@echo "   rm -f $(OBJ)"; rm -f $(OBJ)
 	@echo "   rm -f $(TARGET)"; rm -f $(TARGET)
