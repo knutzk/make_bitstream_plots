@@ -107,28 +107,6 @@ int main(int argc, char** argv) {
     return projection;
   };
 
-  auto make_module_spread = [&] (const std::string& wildcard, float pile_up_val) {
-    DirectoryParser parser{file, path, wildcard};
-    auto spread = std::make_unique<TH1D>("spread", "spread", 100, 0., 1.);
-    for (const auto& module : parser.modules) {
-      PileUpHistogram hist{file, path, module};
-      hist.vetoLumiBlocks(vetoed_lbs);
-      hist.setPileUpRange(pile_up_min, pile_up_max);
-      hist.fillHisto();
-      auto val = hist.getHisto()->GetBinContent(hist.getHisto()->FindBin(pile_up_val));
-      if (val == 0) continue;
-      spread->Fill(val);
-    }
-    spread->Scale(1./spread->Integral());
-    return spread;
-  };
-
-  // std::vector<std::unique_ptr<TH1D> > spreads;
-  // spreads.emplace_back(make_module_spread("^L0", 55));
-  // HistStack spread_stack{spreads};
-  // spread_stack.draw(&canvas);
-  // canvas.SaveAs("output/test.png");
-
   // Plots for: total bit-stream usage
   // -------------------------------------------------------
   std::vector<std::unique_ptr<TH1D> > reduced_hists;
@@ -158,6 +136,47 @@ int main(int argc, char** argv) {
   left_legend.Clear();
 
   std::cout << stack.printTable() << std::endl;
+
+
+  // Module-spread plots
+  // -------------------------------------------------------
+
+  // Produce module-spread plots for an individual set of
+  // modules. This essentially creates plots with bandwidth usage
+  // on the X axis, and the Y axis counts the number of
+  // occurences (for a fixed pile-up value). At the same time,
+  // the values are outputted into the data_output ofstream into
+  // a file.
+  std::ofstream data_output{"output/module_data.txt"};
+  data_output << "Component\tPile-Up\tBandwidth Usage" << std::endl;
+  auto make_module_spread = [&] (const std::string& wildcard, float pile_up_val) {
+    DirectoryParser parser{file, path, wildcard};
+    auto spread = std::make_unique<TH1D>(std::tmpnam(nullptr), std::tmpnam(nullptr), 100, 0., 1.);
+    for (const auto& module : parser.modules) {
+      PileUpHistogram hist{file, path, module};
+      hist.vetoLumiBlocks(vetoed_lbs);
+      hist.setPileUpRange(pile_up_min, pile_up_max);
+      hist.fillHisto();
+      auto val = hist.getHisto()->GetBinContent(hist.getHisto()->FindBin(pile_up_val));
+      if (val == 0) continue;
+      data_output << pile_up_val << "\t" << val << std::endl;
+      spread->Fill(val);
+    }
+    spread->Scale(1./spread->Integral());
+    return spread;
+  };
+
+  // Now perform the actual steps.
+  // -------------------------------------------------------
+  auto spread = make_module_spread("^LI.*_[AC][78]_", 25);
+  spread = make_module_spread("^LI.*_[AC][78]_", 30);
+  spread = make_module_spread("^LI.*_[AC][78]_", 35);
+  spread = make_module_spread("^LI.*_[AC][78]_", 40);
+  spread = make_module_spread("^LI.*_[AC][78]_", 45);
+  spread = make_module_spread("^LI.*_[AC][78]_", 50);
+  spread = make_module_spread("^LI.*_[AC][78]_", 55);
+
+  data_output.close();
 
   return 0;
 }
