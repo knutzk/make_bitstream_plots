@@ -86,6 +86,8 @@ int main(int argc, char** argv) {
   // this infromation to _one_ histogram per given wildcard (e.g.
   // for layers).
   auto make_reduced_hist = [&] (const std::string& wildcard, const std::string& title) {
+    std::cout << "Producing pile-up histogram \"" << title;
+    std::cout <<"\" for modules: " << wildcard << std::endl;
     DirectoryParser parser{file, path, wildcard};
     TProfile prof{(title).c_str(), ("prof_" + title).c_str(), n_bins_from_zero, -2.5, pile_up_max, "s"};
     for (const auto& module : parser.modules) {
@@ -150,6 +152,8 @@ int main(int argc, char** argv) {
   std::ofstream data_output{"output/module_data.txt"};
   data_output << "Component\tPile-Up\tBandwidth Usage" << std::endl;
   auto make_module_spread = [&] (const std::string& wildcard, float pile_up_val) {
+    std::cout << "Producing module-spread plots with mu = ";
+    std::cout << pile_up_val << " for modules: " << wildcard << std::endl;
     DirectoryParser parser{file, path, wildcard};
     auto spread = std::make_unique<TH1D>(std::tmpnam(nullptr), std::tmpnam(nullptr), 100, 0., 1.);
     for (const auto& module : parser.modules) {
